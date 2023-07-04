@@ -6,4 +6,4 @@ function showClock1() {
     var msg = nowHour + ":" + nowMin + ":" + nowSec;
     document.getElementById("RealtimeClockArea").innerHTML = msg;
 }
-    setInterval(showClock1,1000);
+setInterval(showClock1,1000);

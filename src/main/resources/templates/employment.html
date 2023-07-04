@@ -2,9 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<script src="templetes/time.js"></script>
+<script src="time.js"></script>
 </head>
 <body>
+	<p>出退勤</p>
 	<p id="RealtimeClockArea"></p>
+	<input class="button1" type="submit" value="出勤">
+	<input class="button2" type="submit" value="退勤">
+	<button onclick="location.href='/works/edit'">編集</button>
+	<button onclick="location.href='/works/app'">申請</button>
 </body>
+
 </html>
