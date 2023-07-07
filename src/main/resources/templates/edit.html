@@ -1,10 +1,27 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<link rel="stylesheet" th:href="@{/css/edit.css}">
+<title>就業状況確認画面</title>
 </head>
 <body>
-	<p>就業状況</p>
+	<p class="main"><label class="test1">就業状況</label></p>
+	<table>
+	  	<tr>
+		    <th>社員番号</th>
+		    <th>Work ID</th>
+		    <th>出勤日</th>
+		    <th>出勤時刻</th>
+		    <th>退勤時刻</th>
+	  	</tr>
+	  	<tr th:each="duty : ${dutyList}">
+		    <td th:text="${duty.userId}"></td>
+		    <td th:text="${duty.workId}"></td>
+		    <td th:text="${duty.workDate}"></td>
+		    <td th:text="${duty.startTime}"></td>
+		    <td th:text="${duty.endTime}"></td>
+	  	</tr>
+	</table>
 </body>
 </html>

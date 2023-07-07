@@ -2,15 +2,47 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<script src="time.js"></script>
+<link rel="stylesheet" th:href="@{/css/employment.css}">
+<title>出退勤画面</title>
 </head>
 <body>
-	<p>出退勤</p>
-	<p id="RealtimeClockArea"></p>
-	<input class="button1" type="submit" value="出勤">
-	<input class="button2" type="submit" value="退勤">
-	<button onclick="location.href='/works/edit'">編集</button>
-	<button onclick="location.href='/works/app'">申請</button>
+    <p class="main"><label class="test1">出退勤</label></p>
+    <p id="currentDate"></p>
+    <p id="RealtimeClockArea"></p>
+    <div class="form1">
+        <form th:action="@{/employment}">
+            <label id="workSelect">業務選択:</label>
+            <select name="workId" id="workSelect">
+                <option value="1">デカネスト情報ネットワーク株式会社</option>
+                <option value="2">ジルセサービシーズ株式会社</option>
+                <option value="3">株式会社ザーレムニア</option>
+                <option value="4">ハデードラド株式会社</option>
+                <option value="5">株式会社諸見メディカルシステム</option>
+                <option value="6">ホーフェン株式会社</option>
+            </select>
+        </form>
+    </div>
+    <div class="btn1">
+        <form th:action="@{/employment/startWork}" method="get">
+            <button class="but1" type="submit" name="startTime" value="starttime">出勤</button>
+        </form>
+        <form th:action="@{/employment/endWork}" method="get">
+            <button class="but2" type="submit" name="endTime" value="endttime">退勤</button>
+        </form>
+    </div> 
+    <div class="time1">
+        <p id="RealtimeclockArea2" th:text="${startTime}"></p>
+        <p id="RealtimeClockArea"></p>
+        <p id="RealtimeclockArea3" th:text="${endTime}"></p>
+    </div>
+    <div class="btn2">
+        <form th:action="@{/edit}" method="get">
+            <button class="but3" type="submit"name="edit" value="edit">編集</button>    
+        </form>
+        <form th:action="@{/app}" method="get">
+            <button class="but4" type="submit"name="edit" value="app">申請</button>
+        </form>
+    </div>
+    <script src="time.js"></script>
 </body>
-
 </html>

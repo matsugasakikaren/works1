@@ -1,0 +1,104 @@
+body {
+	margin: 0;
+	padding: 0;
+}
+
+p.main {
+	border-bottom: solid 3px;
+	width: 100%;
+	background-color: #90ee90;
+	height: 50px;
+	margin: 0;
+}
+
+label.test1 {
+	display: flex;
+	align-items: center;
+	height: 100%;
+	font-size: 30px;
+}
+
+p#currentDate {
+	font-size: 50px;
+	float: left;
+	position: relative;
+	left: 70px;
+	height: 100px;
+	width: 250px;
+	margin-left: 130px;
+	margin-top:260px;
+}
+
+p#RealtimeClockArea {
+	font-size: 50px;
+	float: left;
+	position: relative;
+	clear: both;
+	margin-left: 200px;
+	margin-top:180px;
+}
+
+div.form1 {
+    text-align: right;
+    margin-right: 550px; 
+    margin-top: 50px;
+	font-size: 30px;
+}
+select {
+  width: 200px; 
+  font-size: 30px;
+}
+
+div.btn1 {
+	display: flex;
+	margin: 110px 30px 120px 800px;
+}
+
+div.btn2 {
+	display: flex;
+	margin: 50px 30px 120px 800px;
+}
+
+button.but1 {
+	margin-right: 250px;
+	margin-left: 30px;
+	width: 320px;
+	height: 200px;
+	border: none;
+	border-radius: 10px;
+	background-color: #98fb98;
+	font-size: 80px;
+	color: white;
+}
+
+button.but2 {
+	width: 320px;
+	height: 200px;
+	border: none;
+	border-radius: 10px;
+	background-color: #98fb98;
+	font-size: 80px;
+	color: white;
+}
+
+button.but3 {
+	margin-right: 250px;
+	margin-left: 30px;
+	width: 320px;
+	height: 200px;
+	border: none;
+	border-radius: 10px;
+	background-color: #98fb98;
+	font-size: 80px;
+	color: white;
+}
+
+button.but4 {
+	width: 320px;
+	height: 200px;
+	border: none;
+	border-radius: 10px;
+	background-color: #98fb98;
+	font-size: 80px;
+	color: white;
+}
