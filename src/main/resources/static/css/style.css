@@ -16,6 +16,11 @@ label.test1 {
   	height: 100%;
   	font-size: 30px;
 }
+
+p.error {
+	color: red;
+}
+
 label {
 	size:30;
 	font-size:30px;

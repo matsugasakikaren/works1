@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" th:href="@{/css/update.css}">
+<title>編集画面</title>
+</head>
+<body>
+	<p class="main"><label class="test1">編集</label></p>
+	<table>
+	  	<tr>
+		    <th>社員番号</th>
+		    <th>出勤日</th>
+		    <th>出勤時刻</th>
+		    <th>退勤時刻</th>
+	  	</tr>
+	  	<form th:action="@{/edit/update}" method="post">
+	  	<tr th:each="duty : ${dutyList}">
+		    <td th:text="${duty.userId}"></td>
+		    <td th:text="${duty.workDate}"></td>
+		 <td>
+	  	      <input type="time" th:name="'startTime-' + ${duty.userId}" th:value="${duty.startTime}" />
+	  	    </td>
+	  	    <td>
+	  	      <input type="time" th:name="'endTime-' + ${duty.userId}" th:value="${duty.endTime}" />
+	  	    </td>
+	  	  </tr>
+	  	  <tr>
+	  	    <td colspan="4">
+	  	      <button type="submit">更新</button>
+	  	    </td>
+	  	  </tr>
+	  </form>
+	</table>
+</body>
+</html>

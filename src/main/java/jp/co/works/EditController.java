@@ -28,5 +28,14 @@ public class EditController {
 		return "edit";
 	}
 	
+	
+	
+	@RequestMapping(path = "/edit/update", method = RequestMethod.POST)
+	public String showupdatePage(Model model) {
+		List<Duty> dutyList = dutyRepository.findAll();
+		model.addAttribute("dutyList", dutyList);
+		return "update";
+	}
+	
 
 }

@@ -21,27 +21,23 @@ label.test1 {
 p#currentDate {
 	font-size: 50px;
 	float: left;
-	position: relative;
-	left: 70px;
 	height: 100px;
-	width: 250px;
 	margin-left: 130px;
-	margin-top:260px;
+	margin-top: 2%;
 }
 
 p#RealtimeClockArea {
 	font-size: 50px;
 	float: left;
-	position: relative;
 	clear: both;
-	margin-left: 200px;
-	margin-top:180px;
+	margin-left: 120px;
+	margin-top:5%;
 }
 
 div.form1 {
     text-align: right;
-    margin-right: 550px; 
-    margin-top: 50px;
+    margin-right: 5%; 
+    margin-top: 2%;
 	font-size: 30px;
 }
 select {
@@ -49,51 +45,28 @@ select {
   font-size: 30px;
 }
 
+div#button-list {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+
 div.btn1 {
 	display: flex;
-	margin: 110px 30px 120px 800px;
+	margin: 5% 1%;
 }
 
 div.btn2 {
 	display: flex;
-	margin: 50px 30px 120px 800px;
+	margin: 2% 1%;
 }
 
-button.but1 {
-	margin-right: 250px;
-	margin-left: 30px;
-	width: 320px;
-	height: 200px;
-	border: none;
-	border-radius: 10px;
-	background-color: #98fb98;
-	font-size: 80px;
-	color: white;
-}
-
-button.but2 {
-	width: 320px;
-	height: 200px;
-	border: none;
-	border-radius: 10px;
-	background-color: #98fb98;
-	font-size: 80px;
-	color: white;
-}
-
-button.but3 {
-	margin-right: 250px;
-	margin-left: 30px;
-	width: 320px;
-	height: 200px;
-	border: none;
-	border-radius: 10px;
-	background-color: #98fb98;
-	font-size: 80px;
-	color: white;
-}
-
+button.but1, 
+button.but2,
+button.but3,
 button.but4 {
+	margin-right: 220px;
+	margin-left: 30px;
 	width: 320px;
 	height: 200px;
 	border: none;
@@ -101,4 +74,25 @@ button.but4 {
 	background-color: #98fb98;
 	font-size: 80px;
 	color: white;
+}
+
+@media (max-width: 768px) {
+	div.btn1,
+	div.btn2 {
+	flex-basis: 100%;
+	margin: 2% 1%;
+}
+
+p#currentDate,
+p#RealtimeClockArea {
+	margin-left: 5%;
+}	
+
+
+button.but1,
+button.but2,
+button.but3,
+button.but4 {
+	width: 100%;
+	margin-bottom: 2%;
 }

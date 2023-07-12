@@ -22,27 +22,29 @@
             </select>
         </form>
     </div>
-    <div class="btn1">
-        <form th:action="@{/employment/startWork}" method="get">
-            <button class="but1" type="submit" name="startTime" value="starttime">出勤</button>
-        </form>
-        <form th:action="@{/employment/endWork}" method="get">
-            <button class="but2" type="submit" name="endTime" value="endttime">退勤</button>
-        </form>
-    </div> 
-    <div class="time1">
-        <p id="RealtimeclockArea2" th:text="${startTime}"></p>
-        <p id="RealtimeClockArea"></p>
-        <p id="RealtimeclockArea3" th:text="${endTime}"></p>
-    </div>
-    <div class="btn2">
-        <form th:action="@{/edit}" method="get">
-            <button class="but3" type="submit"name="edit" value="edit">編集</button>    
-        </form>
-        <form th:action="@{/app}" method="get">
-            <button class="but4" type="submit"name="edit" value="app">申請</button>
-        </form>
-    </div>
+    <div id="button-list">   	
+	    <div class="btn1">
+	        <form th:action="@{/employment/startWork}" method="post">
+	            <button class="but1" type="submit" name="startTime" value="starttime">出勤</button>
+	        </form>
+	        <form th:action="@{/employment/endWork}" method="get">
+	            <button class="but2" type="submit" name="endTime" value="endttime">退勤</button>
+	        </form>
+	    </div> 
+	    <div class="time1">
+	        <p id="RealtimeclockArea2" th:text="${startTime}"></p>
+	        <p id="RealtimeClockArea"></p>
+	        <p id="RealtimeclockArea3" th:text="${endTime}"></p>
+	    </div>
+	    <div class="btn2">
+	        <form th:action="@{/edit}" method="get">
+	            <button class="but3" type="submit"name="edit" value="edit">編集</button>    
+	        </form>
+	        <form th:action="@{/app}" method="get">
+	            <button class="but4" type="submit"name="edit" value="app">申請</button>
+	        </form>
+	    </div>
+	 </div>
     <script src="time.js"></script>
 </body>
 </html>

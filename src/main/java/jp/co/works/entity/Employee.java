@@ -9,6 +9,7 @@ import jakarta.persistence.Table;
 @Table(name = "employee")
 public class Employee {
 	@Id
+	@Column(name = "user_id")
     private Integer userId;
 
     @Column
@@ -19,10 +20,10 @@ public class Employee {
 
 	@Column
     private Integer directorId;
-
-    @Column
+	
+    @Column(name = "holiday_id")
     private Integer holidayId;
-
+    
 	public Integer getUserId() {
 		return userId;
 	}
