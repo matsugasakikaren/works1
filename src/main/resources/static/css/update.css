@@ -1,6 +1,28 @@
+body {
+	margin: 0;
+	padding: 0;
+}
+
+p.main {
+	border-bottom: solid 3px;
+	width: 100%;
+	background-color: #90ee90;
+	height: 50px;
+	margin: 0;
+}
+
+label.test1 {
+	display: flex;
+	align-items: center;
+	height: 100%;
+	font-size: 30px;
+}
+
 table,th,td {
 	border: 1px solid #333;
 }
+
+
 table {
 width: 300px;
 height: 200px;

@@ -26,6 +26,7 @@
 	    <div class="btn1">
 	        <form th:action="@{/employment/startWork}" method="post">
 	            <button class="but1" type="submit" name="startTime" value="starttime">出勤</button>
+	            
 	        </form>
 	        <form th:action="@{/employment/endWork}" method="get">
 	            <button class="but2" type="submit" name="endTime" value="endttime">退勤</button>
@@ -33,7 +34,6 @@
 	    </div> 
 	    <div class="time1">
 	        <p id="RealtimeclockArea2" th:text="${startTime}"></p>
-	        <p id="RealtimeClockArea"></p>
 	        <p id="RealtimeclockArea3" th:text="${endTime}"></p>
 	    </div>
 	    <div class="btn2">

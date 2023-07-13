@@ -6,23 +6,31 @@
 <title>就業状況確認画面</title>
 </head>
 <body>
-	<p class="main"><label class="test1">就業状況</label></p>
+	<p class="main">
+		<label class="test1">就業状況</label>
+	</p>
 	<form th:action="@{/edit/update}" method="post">
-		<input type="submit" value="編集"/>
+		<input type="submit" value="編集" /> <select name="workDate"
+			id="workDateSelect">
+			<option th:each="date : ${dateList}" th:value="${date}"
+				th:text="${date}"></option>
+		</select>
 	</form>
 	<table>
-	  	<tr>
-		    <th>社員番号</th>
-		    <th>出勤日</th>
-		    <th>出勤時刻</th>
-		    <th>退勤時刻</th>
-	  	</tr>
-	  	<tr th:each="duty : ${dutyList}">
-		    <td th:text="${duty.userId}"></td>
-		    <td th:text="${duty.workDate}"></td>
-		    <td th:text="${duty.startTime}"></td>
-		    <td th:text="${duty.endTime}"></td>
-	  	</tr>
+		<tr>
+			<th>日付</th>
+			<th>勤務状況</th>
+			<th>出勤時刻</th>
+			<th>退勤時刻</th>
+			<!--  <th>休憩時間</th>
+		    <th>残業時間</th> -->
+		</tr>
+		<tr th:each="duty : ${dutyList}">
+			<td th:text="${#dates.format(duty.workDate, 'yyyy/MM/dd(E)')}"></td>
+			<td><span th:if="${duty.startTime != null}">勤務</span></td>
+			<td th:text="${duty.startTime}"></td>
+			<td th:text="${duty.endTime}"></td>
+		</tr>
 	</table>
 </body>
 </html>

@@ -1,8 +1,13 @@
 package jp.co.works;
 
 import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,12 +17,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import jakarta.servlet.http.HttpSession;
 import jp.co.works.entity.Duty;
-import jp.co.works.entity.Employee;
 import jp.co.works.repository.DutyRepository;
 import jp.co.works.repository.WorkRepository;
 
 @Controller
-public class WorkController {
+public class WorkController extends LoginController {
 	@Autowired
 	private DutyRepository dutyRepository;
 
@@ -38,16 +42,32 @@ public class WorkController {
 	 */
 	@RequestMapping(path = "/employment")
 	public String showEmploymentPage(String workName, Model model) {
-
 		model.addAttribute("workList", workRepository.findAll());
 		return "employment";
 	}
-	
+
+	/*
+	 * convertToTimeメソッド
+	 * String型からTime型に変換
+	 * 
+	 * @param timeString
+	 * @return Time.valueOf(localTime)
+	 */
 	private Time convertToTime(String timeString) {
-	    LocalTime localTime = LocalTime.parse(timeString, DateTimeFormatter.ofPattern("HH:mm:ss"));
-	    return Time.valueOf(localTime);
+		LocalTime localTime = LocalTime.parse(timeString, DateTimeFormatter.ofPattern("HH:mm:ss"));
+		return Time.valueOf(localTime);
 	}
 
+	private Date convertToDate(String strDate) {
+		SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy/MM/dd");
+		Date date = null;
+		try {
+			date = sdFormat.parse(strDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return date;
+	}
 
 	/*
 	 * startWorkメソッド
@@ -58,15 +78,28 @@ public class WorkController {
 	 */
 	@RequestMapping(path = "/employment/startWork", method = RequestMethod.POST)
 	public String startWork() {
-		
 		Integer startLogin = getLoginUser();
-		
-		Duty duty = new Duty();
 		String starttime = abc();
 		Time startTime = convertToTime(starttime);
-		duty.setStartTime(startTime);
-		duty.setUserId(startLogin);
-		dutyRepository.save(duty);
+		String newdate = getDate();
+		Date workDate = convertToDate(newdate);
+
+		// 現在日のレコードがあるか検索
+		List<Duty> dutyList1 = dutyRepository.findByUserIdAndWorkDate(startLogin, workDate);
+
+		if (dutyList1.isEmpty()) {
+			//レコードがない場合 新しいレコード作成
+			Duty duty = new Duty();
+			duty.setStartTime(startTime);
+			duty.setUserId(startLogin);
+			duty.setWorkDate(workDate);
+			dutyRepository.save(duty);
+		} else {
+			//既存のレコードを更新
+			Duty duty1 = dutyList1.get(0);
+			duty1.setStartTime(startTime);
+			dutyRepository.save(duty1);
+		}
 
 		return "employment";
 	}
@@ -81,16 +114,22 @@ public class WorkController {
 	 */
 	@RequestMapping(path = "/employment/endWork", method = RequestMethod.GET)
 	public String endWork(Model model) {
-		
 		Integer startLogin = getLoginUser();
+
 		String endTime = abc();
+		Time EndTime = convertToTime(endTime);
+		String newdate = getDate();
+		Date workDate = convertToDate(newdate);
 
-		
-		Duty duty = new Duty();
+		List<Duty> dutyList = dutyRepository.findByUserIdAndWorkDate(startLogin, workDate);
 
-		dutyRepository.save(duty);
-		//modelに追加
-		model.addAttribute("endTime", endTime);
+		if (!dutyList.isEmpty()) {
+			Duty duty = dutyList.get(0);
+			duty.setEndTime(EndTime);
+			dutyRepository.save(duty);
+			model.addAttribute("endTime", EndTime);
+		}
+
 		return "employment";
 	}
 
@@ -102,19 +141,20 @@ public class WorkController {
 	private String abc() {
 		LocalTime time1 = LocalTime.now();
 		DateTimeFormatter dtformat1 = DateTimeFormatter.ofPattern("HH:mm:ss");
-		String startTime = dtformat1.format(time1);
-		return startTime;
+		String Time = dtformat1.format(time1);
+		return Time;
 	}
-	
-	
-	
 
-
-	//ログインユーザーの情報を取得
-	private Integer getLoginUser() {
-		Employee logInUser = (Employee) session.getAttribute("users");
-		Integer userId = logInUser.getUserId();
-		return userId;
+	/*
+	 * getDateメソッド
+	 * 
+	 * @return newdate 現在日を取得
+	 */
+	private String getDate() {
+		Calendar cd = Calendar.getInstance();
+		SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd");
+		String newdate = date.format(cd.getTime());
+		return newdate;
 	}
 
 }
