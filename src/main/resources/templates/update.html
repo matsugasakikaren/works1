@@ -9,28 +9,35 @@
 	<p class="main"><label class="test1">編集</label></p>
 	<table>
 	  	<tr>
-		    <th>社員番号</th>
-		    <th>出勤日</th>
+	  		<th>日付</th>
+		    <th>勤務状況</th>
 		    <th>出勤時刻</th>
 		    <th>退勤時刻</th>
+		    <th>休憩時間</th>
 	  	</tr>
-	  	<form th:action="@{/edit/update}" method="post">
-	  	<tr th:each="duty : ${dutyList}">
-		    <td th:text="${duty.userId}"></td>
-		    <td th:text="${duty.workDate}"></td>
-		 <td>
-	  	      <input type="time" th:name="'startTime-' + ${duty.userId}" th:value="${duty.startTime}" />
-	  	    </td>
-	  	    <td>
-	  	      <input type="time" th:name="'endTime-' + ${duty.userId}" th:value="${duty.endTime}" />
-	  	    </td>
-	  	  </tr>
-	  	  <tr>
-	  	    <td colspan="4">
-	  	      <button type="submit">更新</button>
-	  	    </td>
-	  	  </tr>
-	  </form>
+	  	<form th:action="@{/edit/update}" method="post" th:object="${updateForm}">
+		  	<tr th:each="form : ${formList}">
+			    <td th:text="${#dates.format(duty.workDate, 'yyyy/MM/dd(E)')}"></td>
+			    <td><span th:if="${form.startTime != null}">勤務</span></td>
+			    <td>
+			    	<input type="text" th:name="'startTime'" th:value="${form.startTime}" />
+			    </td>
+			    <td>
+			    	<input type="text" th:name="'endTime'" th:value="${form.endTime}" />
+			    </td>
+			    <td>
+			    	<input type="text" th:name="'breakTime'" th:value="${form.breakTime}" />
+			    </td>
+		  	</tr>
+		  	<tr>
+		  		<td colspan="4">
+		  			<button type="submit">更新</button>
+		  		</td>
+		  	</tr>
+		</form>
+	</table>
+</body>
+</html>
 	</table>
 </body>
 </html>

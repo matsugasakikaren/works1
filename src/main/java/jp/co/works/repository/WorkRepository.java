@@ -9,6 +9,7 @@ import jp.co.works.entity.Work;
 
 public interface WorkRepository extends JpaRepository<Work, Integer> {
 	Optional<Work> findById(Integer workId);
+	Work findByWorkName(String workName);
 
 	//Workオブジェクトをlistに追加
 	List<Work> findAll();

@@ -44,7 +44,8 @@ public class SessionController {
 			session.setAttribute("users", user);
 			return "redirect:/employment";
 		} else {
-			model.addAttribute("errMessage", "社員ID、またはパスワードが間違っています。");
+			model.addAttribute("errMessage", 
+					"社員ID、またはパスワードが間違っています。");
 			return "login";
 		}
 	}

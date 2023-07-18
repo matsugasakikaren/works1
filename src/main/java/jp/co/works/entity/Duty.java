@@ -33,10 +33,17 @@ public class Duty {
 	@Column(name = "end_time")
 	private Time endTime;
 	
+	@Column(name = "break_time")
+	private Time breakTime;
+	
 	@ManyToOne
 	@JoinColumn(name = "work_id")
 	private Work work;
 	
+	@ManyToOne
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    private Employee employee;
+
 	public Work getWork() {
 		return work;
 	}
@@ -83,6 +90,22 @@ public class Duty {
 
 	public void setEndTime(Time endTime) {
 		this.endTime = endTime;
+	}
+	
+	public Time getBreakTime() {
+		return breakTime;
+	}
+
+	public void setBreakTime(Time breakTime) {
+		this.breakTime = breakTime;
+	}
+
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
 	}
 
 }

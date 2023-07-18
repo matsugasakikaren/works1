@@ -9,12 +9,17 @@
 	<p class="main">
 		<label class="test1">就業状況</label>
 	</p>
-	<form th:action="@{/edit/update}" method="post">
-		<input type="submit" value="編集" /> <select name="workDate"
-			id="workDateSelect">
-			<option th:each="date : ${dateList}" th:value="${date}"
-				th:text="${date}"></option>
-		</select>
+	<div class="selectoption">
+		<select name="selectedPeriod" th:filed="*{selectedPeriod}">
+			<option th:each="periodOption : ${periodOptions}" th:value="${periodOption.value}" th:text="${periodOption.label}"></option>
+    	</select>
+    	<input type="submit" value="選択">
+    </div>
+    <p th:text="${dutyList[0].employee.userName}"></p>
+	<p>総労働日数:<span th:text="${totalWorkingDays}"></span></p>
+	<p>総休憩時間:<span th:text="${totalBreakTime}"></span></p>
+	<form th:action="@{/edit/update}" method="post" onsubmit="return submitForm()">
+		<input type="submit" value="編集" />
 	</form>
 	<table>
 		<tr>
@@ -22,14 +27,15 @@
 			<th>勤務状況</th>
 			<th>出勤時刻</th>
 			<th>退勤時刻</th>
-			<!--  <th>休憩時間</th>
-		    <th>残業時間</th> -->
+			<th>休憩時間</th>
+		    <!--<th>残業時間</th>-->
 		</tr>
 		<tr th:each="duty : ${dutyList}">
 			<td th:text="${#dates.format(duty.workDate, 'yyyy/MM/dd(E)')}"></td>
 			<td><span th:if="${duty.startTime != null}">勤務</span></td>
 			<td th:text="${duty.startTime}"></td>
 			<td th:text="${duty.endTime}"></td>
+			<td th:text="${duty.breakTime}"></td>
 		</tr>
 	</table>
 </body>

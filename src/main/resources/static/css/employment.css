@@ -87,13 +87,3 @@ p#currentDate,
 p#RealtimeClockArea {
 	margin-left: 5%;
 }	
-
-
-button.but1,
-button.but2,
-button.but3,
-button.but4 {
-	width: 100%;
-	margin-bottom: 2%;
-}
-

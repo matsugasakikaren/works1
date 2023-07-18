@@ -1,6 +1,7 @@
 package jp.co.works.repository;
 
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -14,8 +15,10 @@ public interface DutyRepository extends JpaRepository<Duty, Integer> {
 	List<Duty> findByUserIdAndWorkDate(Integer userId, Date WorkDate);
 
 	List<Duty> findByUserId(Integer userId);
-
+	
+	Duty findByUserIdAndWorkDate(Integer userId, LocalDate now);	
+	
+	List<Duty> getReferenceByUserId(Integer userId);
 	//Dutyオブジェクトを保存・更新
 	Duty save(Duty duty);
-
 }

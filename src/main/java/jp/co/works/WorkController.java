@@ -12,16 +12,18 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import jakarta.servlet.http.HttpSession;
 import jp.co.works.entity.Duty;
+import jp.co.works.entity.Work;
 import jp.co.works.repository.DutyRepository;
 import jp.co.works.repository.WorkRepository;
 
 @Controller
-public class WorkController extends LoginController {
+public class WorkController extends AccountController {
 	@Autowired
 	private DutyRepository dutyRepository;
 
@@ -54,15 +56,15 @@ public class WorkController extends LoginController {
 	 * @return Time.valueOf(localTime)
 	 */
 	private Time convertToTime(String timeString) {
-		LocalTime localTime = LocalTime.parse(timeString, DateTimeFormatter.ofPattern("HH:mm:ss"));
+		LocalTime localTime = LocalTime.parse(timeString, DateTimeFormatter.ofPattern("[]H:mm:ss"));
 		return Time.valueOf(localTime);
 	}
 
 	private Date convertToDate(String strDate) {
-		SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy/MM/dd");
+		SimpleDateFormat simpledateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		Date date = null;
 		try {
-			date = sdFormat.parse(strDate);
+			date = simpledateFormat.parse(strDate);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -83,6 +85,13 @@ public class WorkController extends LoginController {
 		Time startTime = convertToTime(starttime);
 		String newdate = getDate();
 		Date workDate = convertToDate(newdate);
+		
+		String selectedWorkName = "業務内容";
+		Work work = workRepository.findByWorkName(selectedWorkName);
+		
+		if (work != null) {
+			Integer workId = work.getWorkId();
+		}
 
 		// 現在日のレコードがあるか検索
 		List<Duty> dutyList1 = dutyRepository.findByUserIdAndWorkDate(startLogin, workDate);
@@ -126,6 +135,7 @@ public class WorkController extends LoginController {
 		if (!dutyList.isEmpty()) {
 			Duty duty = dutyList.get(0);
 			duty.setEndTime(EndTime);
+
 			dutyRepository.save(duty);
 			model.addAttribute("endTime", EndTime);
 		}
@@ -139,9 +149,9 @@ public class WorkController extends LoginController {
 	 * @return startTime 時刻を取得 
 	 */
 	private String abc() {
-		LocalTime time1 = LocalTime.now();
-		DateTimeFormatter dtformat1 = DateTimeFormatter.ofPattern("HH:mm:ss");
-		String Time = dtformat1.format(time1);
+		LocalTime localtime = LocalTime.now();
+		DateTimeFormatter datetimeformat = DateTimeFormatter.ofPattern("HH:mm:ss");
+		String Time = datetimeformat.format(localtime);
 		return Time;
 	}
 
@@ -150,6 +160,7 @@ public class WorkController extends LoginController {
 	 * 
 	 * @return newdate 現在日を取得
 	 */
+	@ModelAttribute("currentDate")
 	private String getDate() {
 		Calendar cd = Calendar.getInstance();
 		SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd");

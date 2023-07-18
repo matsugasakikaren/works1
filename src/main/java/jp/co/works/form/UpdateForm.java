@@ -1,42 +1,37 @@
 package jp.co.works.form;
 
+import java.sql.Time;
+
 public class UpdateForm {
-	private Integer userId;
-	private String userName;
-	private String workDate;
-	private String starttime;
-	private String endtime;
-	public Integer getUserId() {
+	private static Integer userId;
+	private Time starttime;
+	private Time endtime;
+	private Time breaktime;
+	public static Integer getUserId() {
 		return userId;
 	}
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+	public static void setUserId(Integer userId) {
+		UpdateForm.userId = userId;
 	}
-	public String getUserName() {
-		return userName;
-	}
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-	public String getWorkDate() {
-		return workDate;
-	}
-	public void setWorkDate(String workDate) {
-		this.workDate = workDate;
-	}
-	public String getStarttime() {
+	public Time getStarttime() {
 		return starttime;
 	}
-	public void setStarttime(String starttime) {
+	public void setStarttime(Time starttime) {
 		this.starttime = starttime;
 	}
-	public String getEndtime() {
+	public Time getEndtime() {
 		return endtime;
 	}
-	public void setEndtime(String endtime) {
+	public void setEndtime(Time endtime) {
 		this.endtime = endtime;
 	}
+	public Time getBreaktime() {
+		return breaktime;
+	}
+	public void setBreaktime(Time breaktime) {
+		this.breaktime = breaktime;
+	}
 	
-	
-
 }
+	
+	

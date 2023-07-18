@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpSession;
 import jp.co.works.entity.Employee;
 
 @Controller
-public class LoginController {
+public class AccountController {
 	@Autowired
 	protected HttpSession session;
 

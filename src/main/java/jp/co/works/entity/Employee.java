@@ -1,8 +1,11 @@
 package jp.co.works.entity;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -22,6 +25,9 @@ public class Employee {
 	
     @Column(name = "holiday_id")
     private Integer holidayId;
+    
+    @OneToMany(mappedBy = "employee")
+    private List<Duty> duties;
     
 	public Integer getUserId() {
 		return userId;
@@ -62,5 +68,15 @@ public class Employee {
 	public void setHolidayId(Integer holidayId) {
 		this.holidayId = holidayId;
 	}
+
+	public List<Duty> getDuties() {
+		return duties;
+	}
+
+	public void setDuties(List<Duty> duties) {
+		this.duties = duties;
+	}
+	
+	
    
 }
