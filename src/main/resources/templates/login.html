@@ -7,15 +7,27 @@
 </head>
 
 <body>
-    <p class="main"><label class="test1">ログイン</label></p>
-    <div id="main">
-    	<p class="error" th:text="${errMessage}"></p>
-    	<form th:action="@{/login}" method="post" th:object="${loginForm}">
-	    	<label>ユーザーID</label><input type="text" class="set1" th:field="*{userId}" style="font-size:20px"><br>
-	    	<label>パスワード</label><input type="password" class="set1" th:field="*{password}" style="font-size:20px"><br>
-	    	<input type="submit" class="set2" value="送信" size=50 style="font-size:70px;">
-    	</form>
-    </div>
-    <script src="action.js"></script>
+	<div class="center">
+		<p class="main">
+			<label class="test1">ログイン</label>
+		</p>
+		<div id="main">
+			<p class="error" th:text="${errMessage}"></p>
+			<form th:action="@{/login}" method="post" th:object="${loginForm}">
+				<div class="input-group">
+					<label>ユーザーID</label> <input type="text" class="set1"
+						th:field="*{userId}">
+				</div>
+				<div>
+					<label>パスワード</label> <input type="password" class="set1"
+						th:field="*{password}">
+				</div>
+				<div>
+					<input type="submit" class="set2" value="送信">
+				</div>
+			</form>
+		</div>
+	</div>
+	<script src="action.js"></script>
 </body>
 </html>

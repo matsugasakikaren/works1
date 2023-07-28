@@ -1,55 +1,40 @@
 body {
-	margin: 0;
-	padding: 0;
-}
-p.main {
-	border-bottom: solid 3px;
-	width: 100%;
-	background-color: #90ee90;
-	height: 50px;
-	margin: 0;
-	padding: 0;
-}
-label.test1 {
-	display: flex;
-  	align-items: center;
-  	height: 100%;
-  	font-size: 30px;
+    font-family: Arial, sans-serif;
+    text-align: center;
 }
 
-p.error {
-	color: red;
+.container {
+    width: 400px;
+    margin: 0 auto;
 }
 
-label {
-	size:30;
-	font-size:30px;
-}
-		
-p.error {
-	text-align:center
-}
-		
-form {
-	text-align: center;		
-	
-	
-}
-		
-input.set1{
-	outline: solid 2px #90ee90;
-	width: 600px;
-	height: 100px;
-	border: none;
-	margin: 50px 0px 30px 250px;
-	border-radius: 10px;
+.main {
+    margin-bottom: 30px;
 }
 
-input.set2{
-	outline: solid 2px #90ee90;
-	width: 280px;
-	height: 150px;
-	border: none;
-	margin: 30px;
-	border-radius: 10px;
-	size: 50px;
+.error {
+    color: red;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.input-group label {
+    width: 100px;
+    text-align: right;
+    margin-right: 10px;
+}
+
+.set1 {
+    width: 200px;
+    padding: 5px;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+}

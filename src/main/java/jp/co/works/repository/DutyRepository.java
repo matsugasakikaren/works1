@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import jp.co.works.entity.Duty;
 
@@ -23,4 +24,9 @@ public interface DutyRepository extends JpaRepository<Duty, Integer> {
 	Duty save(Duty duty);
 
 	List<Duty> findByUserIdOrderByWorkDateDesc(Integer userId);
+	
+	@Query("SELECT d FROM Duty d WHERE d.userId = ?1 AND d.workDate BETWEEN ?2 AND ?3")
+    List<Duty> findByUserIdAndWorkDateBetween(Integer userId, LocalDate startDate, LocalDate endDate);
+
+	List<Duty> findByUserIdAndWorkDateIn(Integer userId, List<LocalDate> dateList);
 }

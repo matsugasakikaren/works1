@@ -1,12 +1,40 @@
 body {
-	margin: 0;
-	padding: 0;
+    font-family: Arial, sans-serif;
+    text-align: center;
 }
 
-p.main {
-	border-bottom: solid 3px;
-	width: 100%;
-	background-color: #90ee90;
-	height: 50px;
-	margin: 0;
+.container {
+    width: 400px;
+    margin: 0 auto;
+}
+
+.main {
+    margin-bottom: 30px;
+}
+
+.error {
+    color: red;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.input-group label {
+    width: 100px;
+    text-align: right;
+    margin-right: 10px;
+}
+
+.set1 {
+    width: 200px;
+    padding: 5px;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
 }

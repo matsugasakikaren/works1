@@ -32,17 +32,21 @@ public class Duty {
 
 	@Column(name = "end_time")
 	private Time endTime;
-	
+
 	@Column(name = "break_time")
 	private Time breakTime;
-	
+
 	@ManyToOne
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@JoinColumn(name = "work_id")
 	private Work work;
-	
+
 	@ManyToOne
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
-    private Employee employee;
+	@JoinColumn(name = "user_id", insertable = false, updatable = false)
+	private Employee employee;
+
+	@Column(name = "over_time")
+	private Time overTime;
 
 	public Work getWork() {
 		return work;
@@ -91,7 +95,7 @@ public class Duty {
 	public void setEndTime(Time endTime) {
 		this.endTime = endTime;
 	}
-	
+
 	public Time getBreakTime() {
 		return breakTime;
 	}
@@ -108,4 +112,12 @@ public class Duty {
 		this.employee = employee;
 	}
 
+	public Time getOverTime() {
+		return overTime;
+	}
+
+	public void setOverTime(Time overTime) {
+		this.overTime = overTime;
+	}
+	
 }

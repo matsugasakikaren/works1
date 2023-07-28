@@ -9,34 +9,53 @@
 	<p class="main">
 		<label class="test1">就業状況</label>
 	</p>
-	<div class="selectoption">
-		<select name="selectedPeriod" th:filed="*{selectedPeriod}">
-			<option th:each="periodOption : ${periodOptions}" th:value="${periodOption.value}" th:text="${periodOption.label}"></option>
-    	</select>
-    	<input type="submit" value="選択">
-    </div>
-    <p th:text="${dutyList[0].employee.userName}"></p>
-	<p>総労働日数:<span th:text="${totalWorkingDays}"></span></p>
-	<p>総休憩時間:<span th:text="${totalBreakTime}"></span></p>
-	<form th:action="@{/edit/update}" method="post" onsubmit="return submitForm()">
+	<form th:action="@{/edit}" method="get">
+		<select name="selectedPeriod" onchange="this.form.submit()">
+			<option th:each="option : ${periodOptions}"
+				th:value="${option.value}" th:text="${option.label}"></option>
+		</select>
+		<button type="submit">選択</button>
+		<input type="hidden" name="selectedPeriod"
+			th:value="${selectedPeriod}" />
+	</form>
+	<p th:text="${dutyList[0].employee.userName}"></p>
+	<p>
+		総労働日数:<span th:text="${totalWorkingDays}"></span>
+	</p>
+	<p>
+		総休憩時間:<span th:text="${totalBreakTime}"></span>
+	</p>
+	<form th:action="@{/edit/update}" method="post"
+		onsubmit="return submitForm()">
 		<input type="submit" value="編集" />
 	</form>
 	<table>
 		<tr>
 			<th>日付</th>
+			<th>勤務日</th>
 			<th>勤務状況</th>
 			<th>出勤時刻</th>
 			<th>退勤時刻</th>
 			<th>休憩時間</th>
-		    <!--<th>残業時間</th>-->
+			<th>残業時間</th>
 		</tr>
 		<tr th:each="duty : ${dutyList}">
+			<td><span th:text="${#dates.format(date, 'yyyy/MM/dd(E)')}"></span>
+			</td>
 			<td th:text="${#dates.format(duty.workDate, 'yyyy/MM/dd(E)')}"></td>
 			<td><span th:if="${duty.startTime != null}">勤務</span></td>
 			<td th:text="${duty.startTime}"></td>
 			<td th:text="${duty.endTime}"></td>
 			<td th:text="${duty.breakTime}"></td>
+			<td th:text="${duty.overTime}"></td>
 		</tr>
 	</table>
+	<div th:if="${dateList != null}">
+		<h2>選択した期間の日付一覧</h2>
+		<ul>
+			<li th:each="date : ${dateList}"
+				th:text="${#dates.format(date, 'yyyy/MM/dd(E)')}"></li>
+		</ul>
+	</div>
 </body>
 </html>
