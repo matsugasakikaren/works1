@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>申請フォーム</title>
+</head>
+<body>
+	<h1>申請フォーム</h1>
+	<form th:action="@{/save}" method="post">
+		<label for="holidayName">休暇名：</label> <select id="holidayName"
+			name="holidayName">
+			<option value="有給休暇">有給休暇</option>
+			<option value="特別休暇">特別休暇</option>
+			<option value="夏季休暇">夏季休暇</option>
+			<option value="慶弔休暇">慶弔休暇</option>
+			<option value="年末年始休暇">年末年始休暇</option>
+			<option value="代休">代休</option>
+			<option value="振替">振替</option>
+			<option value="半休">半休</option>
+		</select> <label for="holidayStart">申請日：</label>
+        <select id="holidayStart" name="holidayStart">
+            <option th:each="date : ${holidayDates}" th:value="${date}" th:text="${date}"></option>
+        </select>
+        <br>
+        <input type="submit" value="送信">
+    </form>
+		
+
+	<h2>申請一覧</h2>
+	<table border="1">
+		<tr>
+			<th>申請ID</th>
+			<th>申請日</th>
+			<th>休暇名</th>
+			<th>承認結果</th>
+		</tr>
+		<tr th:each="holiday : ${holidayDtoList}">
+			<td th:text="${holiday.holidayId}"></td>
+			<td th:text="${holiday.holidayStart}"></td>
+			<td th:text="${holiday.holidayName}"></td>
+			<td th:text="${holiday.decisionName}"></td>
+		</tr>
+	</table>
+</body>
+</html>

@@ -3,12 +3,18 @@ package jp.co.works.form;
 import java.sql.Time;
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+
 public class UpdateForm {
 	private Integer dutyId;
 	private Integer userId;
+	@NotNull(message = "startTime is required")
 	private Time startTime;
+	@NotNull(message = "endTime is required")
 	private Time endTime;
+	@NotNull(message = "breakTime is required")
 	private Time breakTime;
+	@NotNull(message = "overTime is required")
 	private Time overTime;
 	private Date workDate;
 

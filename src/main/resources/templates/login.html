@@ -5,29 +5,28 @@
 <title>ログイン画面</title>
 <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-
 <body>
 	<div class="center">
 		<p class="main">
-			<label class="test1">ログイン</label>
+			<label>ログイン</label>
 		</p>
 		<div id="main">
 			<p class="error" th:text="${errMessage}"></p>
 			<form th:action="@{/login}" method="post" th:object="${loginForm}">
 				<div class="input-group">
-					<label>ユーザーID</label> <input type="text" class="set1"
+					<div><label>　社員ID　</label> <input type="text" class="set1"
 						th:field="*{userId}">
-				</div>
-				<div>
-					<label>パスワード</label> <input type="password" class="set1"
-						th:field="*{password}">
-				</div>
-				<div>
-					<input type="submit" class="set2" value="送信">
+					</div>
+					<div>
+						<label>パスワード</label> <input type="password" class="set1"
+							th:field="*{password}">
+					</div>
+					<div>
+						<input type="submit" class="set2" value="送信">
+					</div>
 				</div>
 			</form>
 		</div>
 	</div>
-	<script src="action.js"></script>
 </body>
 </html>

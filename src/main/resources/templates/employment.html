@@ -6,42 +6,47 @@
 <title>出退勤画面</title>
 </head>
 <body>
-	<p class="main">
-		<label class="test1">打刻</label>
-	</p>
-	<div class="current-date-time">
-		<p id="currentDate" th:text="${currentDate}"></p>
-		<p id="RealtimeClockArea" th:text="${currentTime}"></p>
-	</div>
-	<div class="form1">
-		<form th:action="@{/employment}"></form>
-	</div>
-	<div class="button-list">
-		<div class="btn1">
-			<!-- 出勤フォーム -->
-			<form th:action="@{/employment/startWork}" method="post">
-				<button class="but1" type="submit" name="startTime" value="starttime">出勤</button>
-			</form>
-
-			<!-- 退勤フォーム -->
-			<form th:action="@{/employment/endWork}" method="post">
-				<label id="workSelectLabel">業務選択:</label>
-				<select name="workId" id="workSelect">
+	<div class="container">
+		<p class="main">
+			<label>打刻</label>
+		</p>
+		<div class="form1">
+			<form th:action="@{/employment}">
+				<!-- 業務内容とドロップダウンリスト -->
+				<label id="workSelectLabel">業務内容:</label> <select name="workId"
+					id="workSelect">
 					<option th:each="work : ${workList}" th:value="${work.workId}"
 						th:text="${work.workName}"></option>
 				</select>
+			</form>
+			<form th:action="@{/employment/endWork}" method="post">
+				<!-- 退勤ボタン -->
 				<button class="but2" type="submit" name="endTime" value="endtime">退勤</button>
 			</form>
 		</div>
+		<div class="current-date-time">
+			<!-- currentDate -->
+			<p id="currentDate" th:text="${currentDate}"></p>
+			<div class="button-list">
+				<!-- 出勤ボタン -->
+				<form th:action="@{/employment/startWork}" method="post">
+					<button class="but1" type="submit" name="startTime"
+						value="starttime">出勤</button>
+				</form>
+			</div>
+		</div>
+		<!-- startTimeとendTime -->
 		<div class="time1">
 			<p id="RealtimeclockArea2" th:text="${startTime}"></p>
 			<p id="RealtimeclockArea3" th:text="${endTime}"></p>
 		</div>
 		<div class="btn2">
+			<!-- 編集ボタン -->
 			<form th:action="@{/edit}" method="get">
 				<button class="but3" type="submit" name="edit" value="edit">編集</button>
 			</form>
-			<form th:action="@{/app}" method="get">
+			<!-- 申請ボタン -->
+			<form th:action="@{/application}" method="get">
 				<button class="but4" type="submit" name="edit" value="app">申請</button>
 			</form>
 		</div>

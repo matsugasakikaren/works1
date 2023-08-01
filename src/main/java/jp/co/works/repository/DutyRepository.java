@@ -29,4 +29,6 @@ public interface DutyRepository extends JpaRepository<Duty, Integer> {
     List<Duty> findByUserIdAndWorkDateBetween(Integer userId, LocalDate startDate, LocalDate endDate);
 
 	List<Duty> findByUserIdAndWorkDateIn(Integer userId, List<LocalDate> dateList);
+
+	Duty findByWorkDate(Date workDate);
 }
