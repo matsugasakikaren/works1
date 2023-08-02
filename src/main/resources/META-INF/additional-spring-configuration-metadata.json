@@ -1,0 +1,12 @@
+{"properties": [
+  {
+    "name": "erver.session.timeout",
+    "type": "java.lang.String",
+    "description": "A description for 'erver.session.timeout'"
+  },
+  {
+    "name": "server.session.timeout",
+    "type": "java.lang.String",
+    "description": "A description for 'server.session.timeout'"
+  }
+]}

@@ -50,12 +50,5 @@
 			<td th:text="${duty.overTime}"></td>
 		</tr>
 	</table>
-	<div th:if="${dateList != null}">
-		<h2>選択した期間の日付一覧</h2>
-		<ul>
-			<li th:each="date : ${dateList}"
-				th:text="${#dates.format(date, 'yyyy/MM/dd(E)')}"></li>
-		</ul>
-	</div>
 </body>
 </html>
