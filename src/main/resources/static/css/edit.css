@@ -17,3 +17,12 @@ label.test1 {
 	height: 100%;
 	font-size: 30px;
 }
+/* 土曜日のスタイル */
+.saturday {
+    color: blue;
+}
+
+/* 日曜日と祝日のスタイル */
+.sunday-holiday {
+    color: red;
+}

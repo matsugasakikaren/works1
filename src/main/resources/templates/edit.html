@@ -9,10 +9,13 @@
 	<p class="main">
 		<label class="test1">就業状況</label>
 	</p>
+		<div th:each="date : ${currentDateRange}">
+			<p th:text="${#dates.format(date, 'yyyy/MM/dd(E)')}"></p>
+		</div>
 	<form th:action="@{/edit}" method="get">
 		<select name="selectedPeriod" onchange="this.form.submit()">
-			<option th:each="option : ${periodOptions}"
-				th:value="${option.value}" th:text="${option.label}"></option>
+			<option th:each="option : ${periodOptions}" th:value="${option}"
+				th:text="${option}"></option>
 		</select>
 		<button type="submit">選択</button>
 		<input type="hidden" name="selectedPeriod"
@@ -32,7 +35,6 @@
 	<table>
 		<tr>
 			<th>日付</th>
-			<th>勤務日</th>
 			<th>勤務状況</th>
 			<th>出勤時刻</th>
 			<th>退勤時刻</th>
@@ -40,8 +42,6 @@
 			<th>残業時間</th>
 		</tr>
 		<tr th:each="duty : ${dutyList}">
-			<td><span th:text="${#dates.format(date, 'yyyy/MM/dd(E)')}"></span>
-			</td>
 			<td th:text="${#dates.format(duty.workDate, 'yyyy/MM/dd(E)')}"></td>
 			<td><span th:if="${duty.startTime != null}">勤務</span></td>
 			<td th:text="${duty.startTime}"></td>
@@ -50,5 +50,8 @@
 			<td th:text="${duty.overTime}"></td>
 		</tr>
 	</table>
+	<ul>
+        <li th:each="date : ${dateList}" th:text="${date}"></li>
+    </ul>
 </body>
 </html>

@@ -1,6 +1,7 @@
 package jp.co.works.controller;
 
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,7 @@ import jp.co.works.form.UpdateForm;
 import jp.co.works.repository.DutyRepository;
 import jp.co.works.repository.EmployeeRepository;
 import jp.co.works.service.DutyService;
+import jp.co.works.utils.DateRange;
 @Controller
 public class EditController extends AccountController {
 	private final DutyRepository dutyRepository;
@@ -44,12 +46,23 @@ public class EditController extends AccountController {
      */
     @RequestMapping(path = "/edit", method = RequestMethod.GET)
     public String showEditPage(Model model
-            , @RequestParam(required = false) Integer selectedPeriod
-    ) {
+    		 , @RequestParam(required = false) String selectedPeriod
+    		 ) {
+    	
         Integer userId = getLoginUser(); //ログイン中のユーザーIDを取得
         List<Duty> dutyList = dutyRepository.findByUserId(userId);
         model.addAttribute("dutyList", dutyList);
+        
+     // ドロップダウンリストの選択肢を生成
+        List<String> periodOptions = DateRange.generateDateRanges();
+        model.addAttribute("periodOptions", periodOptions);
 
+        // 選択された期間の日付リストを取得
+        if (selectedPeriod != null) {
+            List<LocalDate> dateList = DateRange.getSelectedDateList(selectedPeriod);
+            model.addAttribute("dateList", dateList);
+        }
+        
         int totalWorkingDays = GetTotalWorkingDays(dutyList); //総労働日数を取得
         model.addAttribute("totalWorkingDays", totalWorkingDays);
 

@@ -11,15 +11,13 @@
 			<label>打刻</label>
 		</p>
 		<div class="form1">
-			<form th:action="@{/employment}">
+			<form th:action="@{/employment/endWork}" method="post">
 				<!-- 業務内容とドロップダウンリスト -->
 				<label id="workSelectLabel">業務内容:</label> <select name="workId"
 					id="workSelect">
 					<option th:each="work : ${workList}" th:value="${work.workId}"
 						th:text="${work.workName}"></option>
 				</select>
-			</form>
-			<form th:action="@{/employment/endWork}" method="post">
 				<!-- 退勤ボタン -->
 				<button class="but2" type="submit" name="endTime" value="endtime">退勤</button>
 			</form>
