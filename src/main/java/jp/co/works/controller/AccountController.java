@@ -21,5 +21,4 @@ public class AccountController {
 		Integer userId = logInUser.getUserId();
 		return userId;
 	}
-
 }

@@ -30,5 +30,4 @@ public class Approval {
 	public void setDecisionName(String decisionName) {
 		this.decisionName = decisionName;
 	}
-
 }

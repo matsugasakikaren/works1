@@ -119,5 +119,4 @@ public class Duty {
 	public void setOverTime(Time overTime) {
 		this.overTime = overTime;
 	}
-	
 }

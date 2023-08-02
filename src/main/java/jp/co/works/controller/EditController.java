@@ -94,13 +94,11 @@ public class EditController extends AccountController {
         dutyService.updateAll(formParam.getFormList());
         List<UpdateForm> formList = formParam.getFormList();
         for (UpdateForm updateForm : formList) {
-        	dutyService.updateDuty(updateForm);
+        	dutyService.updateDuty(updateForm);	
         	
         	logger.info("updateDuty: Updated data: {}", updateForm.toString());
         }
-        
         logger.info("updateDuty: formList size = {}", formList.size()); // ログを追加
-
         return "redirect:/edit";
     }
 
@@ -120,6 +118,7 @@ public class EditController extends AccountController {
         }
         return totalWorkingDays;
     }
+    
     /*
      * totalBreakTimeメソッド    
      * 総休憩時間を求める

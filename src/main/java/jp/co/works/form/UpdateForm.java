@@ -73,5 +73,4 @@ public class UpdateForm {
 	public void setWorkDate(Date workDate) {
 		this.workDate = workDate;
 	}
-
 }

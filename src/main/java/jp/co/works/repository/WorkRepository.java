@@ -14,5 +14,4 @@ public interface WorkRepository extends JpaRepository<Work, Integer> {
 	//Workオブジェクトをlistに追加
 	List<Work> findAll();
 	Work findByWorkId(Integer workId);
-
 }

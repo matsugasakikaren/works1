@@ -57,5 +57,4 @@ public class HolidayForm {
 	public void setApprovalStatus(String approvalStatus) {
 		this.approvalStatus = approvalStatus;
 	}
-
 }

@@ -22,10 +22,10 @@ public class DutyService {
 	public DutyService(DutyRepository dutyRepository) {
 		this.dutyRepository = dutyRepository;
 	}
-	
-	 public List<Duty> getAllDuties() {
-	        return dutyRepository.findAll();
-	    }
+
+	public List<Duty> getAllDuties() {
+		return dutyRepository.findAll();
+	}
 
 	/**
 	 *ユーザー情報 全検索
@@ -53,54 +53,54 @@ public class DutyService {
 	 * ユーザー情報更新
 	 *  @param param 画面パラメータ
 	 */
-	 public void updateAll(List<UpdateForm> formList) {
-	        for (UpdateForm updateForm : formList) {
-	            // UpdateFormから必要なデータを取得
-	            Date workDate = updateForm.getWorkDate();
-	            Time startTime = updateForm.getStartTime();
-	            Time endTime = updateForm.getEndTime();
-	            Time breakTime = updateForm.getBreakTime();
-	            Time overTime = updateForm.getOverTime();
+	public void updateAll(List<UpdateForm> formList) {
+		for (UpdateForm updateForm : formList) {
+			// UpdateFormから必要なデータを取得
+			Date workDate = updateForm.getWorkDate();
+			Time startTime = updateForm.getStartTime();
+			Time endTime = updateForm.getEndTime();
+			Time breakTime = updateForm.getBreakTime();
+			Time overTime = updateForm.getOverTime();
 
-	            // データベースから対応するDutyを取得
-	            Duty duty = dutyRepository.findByWorkDate(workDate);
-	            if (duty == null) {
-	                // 該当するDutyが存在しない場合はスキップ
-	                continue;
-	            }
+			// データベースから対応するDutyを取得
+			Duty duty = dutyRepository.findByWorkDate(workDate);
+			if (duty == null) {
+				// 該当するDutyが存在しない場合はスキップ
+				continue;
+			}
 
-	            // 取得したDutyの情報を更新
-	            duty.setStartTime(startTime);
-	            duty.setEndTime(endTime);
-	            duty.setBreakTime(breakTime);
-	            duty.setOverTime(overTime);
+			// 取得したDutyの情報を更新
+			duty.setStartTime(startTime);
+			duty.setEndTime(endTime);
+			duty.setBreakTime(breakTime);
+			duty.setOverTime(overTime);
 
-	            // データベースを更新
-	            dutyRepository.save(duty);
-	        }
-	    }
+			// データベースを更新
+			dutyRepository.save(duty);
+		}
+	}
 
 	public void updateDuty(UpdateForm updateForm) {
 		Date workDate = updateForm.getWorkDate();
-	    Time startTime = updateForm.getStartTime();
-	    Time endTime = updateForm.getEndTime();
-	    Time breakTime = updateForm.getBreakTime();
-	    Time overTime = updateForm.getOverTime();
+		Time startTime = updateForm.getStartTime();
+		Time endTime = updateForm.getEndTime();
+		Time breakTime = updateForm.getBreakTime();
+		Time overTime = updateForm.getOverTime();
 
-	    // データベースから対応するDutyを取得
-	    Duty duty = dutyRepository.findByWorkDate(workDate);
-	    if (duty == null) {
-	        // 該当するDutyが存在しない場合はスキップ
-	        return;
-	    }
+		// データベースから対応するDutyを取得
+		Duty duty = dutyRepository.findByWorkDate(workDate);
+		if (duty == null) {
+			// 該当するDutyが存在しない場合はスキップ
+			return;
+		}
 
-	    // 取得したDutyの情報を更新
-	    duty.setStartTime(startTime);
-	    duty.setEndTime(endTime);
-	    duty.setBreakTime(breakTime);
-	    duty.setOverTime(overTime);
+		// 取得したDutyの情報を更新
+		duty.setStartTime(startTime);
+		duty.setEndTime(endTime);
+		duty.setBreakTime(breakTime);
+		duty.setOverTime(overTime);
 
-	    // データベースを更新
-	    dutyRepository.save(duty);
-	}		
+		// データベースを更新
+		dutyRepository.save(duty);
+	}
 }

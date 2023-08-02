@@ -14,7 +14,7 @@ public class Work {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "work_id")
 	private Integer workId;
-	
+
 	@Column(name = "work_name")
 	private String workName;
 

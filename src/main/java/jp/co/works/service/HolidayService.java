@@ -25,7 +25,6 @@ public class HolidayService {
         this.approvalRepository = approvalRepository;
     }
     
-
     public List<Holiday> getAllHolidays() {
         return holidayRepository.findAll();
     }
@@ -51,13 +50,13 @@ public class HolidayService {
         return holidayDto;
     }
 
-
 	public void saveHoliday(Integer userId, HolidayForm holidayForm) {	
 		String holidayName = holidayForm.getHolidayName();
 	    Date holidayStart = holidayForm.getHolidayStart();
 	    Date holidayEnd = holidayForm.getHolidayEnd();
 	    int decisionId = holidayForm.getDecisionId();
 	    Date requestDate = new Date(); 
+	    
 	    // Holidayエンティティのインスタンスを作成
 	    Holiday holiday = new Holiday();
 	    holiday.setHolidayName(holidayName);
@@ -65,7 +64,6 @@ public class HolidayService {
 	    holiday.setHolidayEnd((java.sql.Date) holidayEnd);
 	    holiday.setDecisionId(decisionId);
 	    holiday.setRequestDate((java.sql.Date) requestDate);
-
 
 	    // データベースに休暇情報を保存
 	    holidayRepository.save(holiday);
@@ -85,6 +83,5 @@ public class HolidayService {
 	        }
 	    }
 	    return holidayForm;
-	}
-	
+	}	
 }

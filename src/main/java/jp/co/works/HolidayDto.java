@@ -57,5 +57,4 @@ public class HolidayDto {
 	public void setHolidayName(String holidayName) {
 		this.holidayName = holidayName;
 	}
-
 }

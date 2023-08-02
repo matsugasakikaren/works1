@@ -60,9 +60,7 @@ public class ApplicationController extends AccountController {
         // これまでの申請情報を取得
         List<HolidayDto> holidayDtoList = holidayService.getAllHolidayDto();
         model.addAttribute("holidayDtoList", holidayDtoList);
-
         model.addAttribute("holidayForm", new HolidayForm());
-
         return "application";
     }
 
@@ -74,7 +72,6 @@ public class ApplicationController extends AccountController {
             model.addAttribute("holidayForm", holidayForm);
             return "application";
         }
-
     	Integer userId = getLoginUser();
         holidayService.saveHoliday(userId, holidayForm);
         return "redirect:/application"; // 申請後に申請フォームにリダイレクト

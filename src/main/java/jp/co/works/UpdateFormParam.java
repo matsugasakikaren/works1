@@ -14,7 +14,6 @@ public class UpdateFormParam implements Serializable {
 
 	public void setFormList(List<UpdateForm> list) {
 		this.formList = list;
-		
 	}
 
 	public List<UpdateForm> getFormList() {

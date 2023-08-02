@@ -71,9 +71,7 @@ public class WorkController extends AccountController {
 	@RequestMapping(path = "/employment")
 	public String showEmploymentPage(String workName, Model model) {
 		Integer userId = getLoginUser(); //ログインユーザーの情報を取得
-		Date today =convertToDate(getDate()); //現在日の取得
-		
-
+		Date today = convertToDate(getDate()); //現在日の取得
 		List<Duty> dutyList = dutyRepository.findByUserIdAndWorkDate(userId, today); //当日のレコードがあるか検索
 
 		if (!dutyList.isEmpty()) {
@@ -160,9 +158,7 @@ public class WorkController extends AccountController {
 			dutyRepository.save(duty);
 			model.addAttribute("endTime", EndTime);
 			model.addAttribute("overTime", overTime);
-
 		}
-
 		return "employment";
 	}
 
@@ -238,5 +234,4 @@ public class WorkController extends AccountController {
 		// 残業時間がない場合や異常な場合はnullを返す
 		return null;
 	}
-
 }

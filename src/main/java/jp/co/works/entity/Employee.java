@@ -11,25 +11,25 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "employee")
 public class Employee {
-	
+
 	@Id
-    private Integer userId;
-
-    @Column
-    private String userName;
-
-    @Column
-    private String password;
+	private Integer userId;
 
 	@Column
-    private Integer directorId;
-	
-    @Column(name = "holiday_id")
-    private Integer holidayId;
-    
-    @OneToMany(mappedBy = "employee")
-    private List<Duty> duties;
-    
+	private String userName;
+
+	@Column
+	private String password;
+
+	@Column
+	private Integer directorId;
+
+	@Column(name = "holiday_id")
+	private Integer holidayId;
+
+	@OneToMany(mappedBy = "employee")
+	private List<Duty> duties;
+
 	public Integer getUserId() {
 		return userId;
 	}
@@ -77,7 +77,4 @@ public class Employee {
 	public void setDuties(List<Duty> duties) {
 		this.duties = duties;
 	}
-	
-	
-   
 }
