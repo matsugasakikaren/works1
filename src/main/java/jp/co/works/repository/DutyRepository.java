@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import jp.co.works.entity.Duty;
 
-public interface DutyRepository extends JpaRepository<Duty, Integer> {
+public interface DutyRepository extends JpaRepository<Duty, Long> {
 	List<Duty> findByUserIdAndWorkDateAndStartTime(Integer userId, Date WorkDate, Time startTime);
 
 	List<Duty> findByUserIdAndWorkDate(Integer userId, Date WorkDate);

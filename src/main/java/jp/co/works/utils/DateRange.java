@@ -1,13 +1,15 @@
 package jp.co.works.utils;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class DateRange {
 	public static List<String> generateDateRanges() {
-		List<String> dateRanges = new ArrayList<>();
+List<String> dateRanges = new ArrayList<>();
 		
 		//現在の日付けを取得
 		LocalDate currentDate = LocalDate.now();
@@ -45,6 +47,16 @@ public class DateRange {
         }
         return currentDateRange;
     }
+	
+	//LocalDate→Date型に変換
+	  public static List<Date> convertToDateList(List<LocalDate> localDates) {
+	        List<Date> dates = new ArrayList<>();
+	        for (LocalDate localDate : localDates) {
+	            Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+	            dates.add(date);
+	        }
+	        return dates;
+	    }
 	
 	// 新しいメソッド：選択した期間の日付リストを取得　開始日から終了日までの日付を1日ずつリストに追加
     public static List<LocalDate> getSelectedDateList(String selectedPeriod) {

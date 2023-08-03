@@ -36,6 +36,7 @@ public class DutyService {
 		List<Duty> dutyList = dutyRepository.findAll();
 		UpdateFormParam updateFormParam = new UpdateFormParam();
 		List<UpdateForm> list = new ArrayList<UpdateForm>();
+
 		for (Duty duty : dutyList) {
 			UpdateForm updateform = new UpdateForm();
 			updateform.setUserId(duty.getUserId());
@@ -53,6 +54,24 @@ public class DutyService {
 	 * ユーザー情報更新
 	 *  @param param 画面パラメータ
 	 */
+	public void updateAll(UpdateFormParam updateFormParam) {
+		List<Duty> dutyList = new ArrayList<Duty>();
+
+		//formからエンティティに詰め替え
+		for (UpdateForm updateForm : ((UpdateFormParam) updateFormParam).getFormList()) {
+			// UpdateFormから必要なデータを取得
+			Duty duty = dutyRepository.findByUserId(updateForm.getUserId()).get(0);
+			duty.setStartTime(updateForm.getStartTime());
+			duty.setEndTime(updateForm.getEndTime());
+			duty.setBreakTime(updateForm.getBreakTime());
+			duty.setOverTime(duty.getOverTime());
+			dutyList.add(duty);
+		}
+
+		dutyRepository.saveAll(dutyList);
+
+	}
+
 	public void updateAll(List<UpdateForm> formList) {
 		for (UpdateForm updateForm : formList) {
 			// UpdateFormから必要なデータを取得
@@ -78,29 +97,5 @@ public class DutyService {
 			// データベースを更新
 			dutyRepository.save(duty);
 		}
-	}
-
-	public void updateDuty(UpdateForm updateForm) {
-		Date workDate = updateForm.getWorkDate();
-		Time startTime = updateForm.getStartTime();
-		Time endTime = updateForm.getEndTime();
-		Time breakTime = updateForm.getBreakTime();
-		Time overTime = updateForm.getOverTime();
-
-		// データベースから対応するDutyを取得
-		Duty duty = dutyRepository.findByWorkDate(workDate);
-		if (duty == null) {
-			// 該当するDutyが存在しない場合はスキップ
-			return;
-		}
-
-		// 取得したDutyの情報を更新
-		duty.setStartTime(startTime);
-		duty.setEndTime(endTime);
-		duty.setBreakTime(breakTime);
-		duty.setOverTime(overTime);
-
-		// データベースを更新
-		dutyRepository.save(duty);
 	}
 }
