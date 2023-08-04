@@ -1,8 +1,8 @@
 package jp.co.works.service;
 
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,7 +75,7 @@ public class DutyService {
 	public void updateAll(List<UpdateForm> formList) {
 		for (UpdateForm updateForm : formList) {
 			// UpdateFormから必要なデータを取得
-			Date workDate = updateForm.getWorkDate();
+			LocalDate workDate = updateForm.getWorkDate();
 			Time startTime = updateForm.getStartTime();
 			Time endTime = updateForm.getEndTime();
 			Time breakTime = updateForm.getBreakTime();

@@ -1,7 +1,7 @@
 package jp.co.works.entity;
 
 import java.sql.Time;
-import java.util.Date;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -25,7 +25,7 @@ public class Duty {
 	private Integer userId;
 
 	@Column(name = "work_date")
-	private Date workDate;
+	private LocalDate workDate;
 
 	@Column(name = "start_time")
 	private Time startTime;
@@ -64,11 +64,11 @@ public class Duty {
 		this.dutyId = dutyId;
 	}
 
-	public Date getWorkDate() {
+	public LocalDate getWorkDate() {
 		return workDate;
 	}
 
-	public void setWorkDate(Date workDate) {
+	public void setWorkDate(LocalDate workDate) {
 		this.workDate = workDate;
 	}
 

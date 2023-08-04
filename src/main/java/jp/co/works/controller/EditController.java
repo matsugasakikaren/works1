@@ -2,9 +2,7 @@ package jp.co.works.controller;
 
 import java.sql.Time;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import jp.co.works.DutyInfo;
 import jp.co.works.UpdateFormParam;
 import jp.co.works.entity.Duty;
 import jp.co.works.form.UpdateForm;
@@ -52,21 +49,58 @@ public class EditController extends AccountController {
 	@RequestMapping(path = "/edit", method = RequestMethod.GET)
 	public String showEditPage(Model model, @RequestParam(required = false) String selectedPeriod) {
 
-		Integer userId = getLoginUser(); //ログイン中のユーザーIDを取得
+		//ログイン中のユーザーIDを取得
+		Integer userId = getLoginUser();
 		List<Duty> dutyList = dutyRepository.findByUserId(userId);
 		model.addAttribute("dutyList", dutyList);
 
 		// ドロップダウンリストの選択肢を生成
-		List<String> periodOptions = DateRange.generateDateRanges();
-		model.addAttribute("periodOptions", periodOptions);
-
+        List<String> periodOptions = DateRange.generateDateRanges();
+        model.addAttribute("periodOptions", periodOptions);
+        //model.addAttribute("selectedPeriod", selectedPeriod);
+	    
 		// 選択された期間の日付リストを取得
 		if (selectedPeriod != null) {
-			List<LocalDate> dateList = DateRange.getSelectedDateList(selectedPeriod);
-			model.addAttribute("dateList", dateList);
+			List<LocalDate> selectedDateList = DateRange.getSelectedDateList(selectedPeriod);
+			model.addAttribute("selecteDateList", selectedDateList);
+		}
+		//期間リストを格納
+		List<LocalDate> currentDateRangeList = DateRange.getCurrentDateRange();
+
+		//1日ずつリストを格納
+		List<LocalDate> selectedLocalDateList = DateRange.getSelectedDateList(selectedPeriod);
+
+		//Mapを定義
+		Map<LocalDate, Duty> dutyMap = new HashMap<>();
+
+		//currentDateRangeListの日付を１日ずつdutyMapに追加
+		for (LocalDate date : currentDateRangeList) {
+			dutyMap.put(date, null);
+
+			//dutyテーブルから日付を取得
+			Duty dutyRecord = dutyRepository.findByWorkDate(date);
+
+			//合致するレコードがある場合dutyMapに日付とDutyオブジェクトを追加
+			if (dutyRecord != null) {
+				Duty dutyEntry = new Duty();
+				dutyEntry.setWorkDate(date);
+				dutyEntry.setStartTime(dutyRecord.getStartTime());
+				dutyEntry.setEndTime(dutyRecord.getEndTime());
+				dutyEntry.setBreakTime(dutyRecord.getBreakTime());
+				dutyEntry.setOverTime(dutyRecord.getOverTime());
+				dutyMap.put(date, dutyEntry);
+			} else {
+				//存在しない場合は日付のみをdutyMapに追加
+				Duty dutyEntry = new Duty();
+				dutyEntry.setWorkDate(date);
+				dutyMap.putIfAbsent(date, dutyEntry);
+			}
 		}
 		
-		 //総労働日数を取得
+		//dutyMapをmodelに渡す。
+		model.addAttribute("dutyMap", dutyMap);
+
+		//総労働日数を取得
 		int totalWorkingDays = GetTotalWorkingDays(dutyList);
 		model.addAttribute("totalWorkingDays", totalWorkingDays);
 
@@ -78,39 +112,8 @@ public class EditController extends AccountController {
 		if (updatedFormList != null) {
 			model.addAttribute("formList", updatedFormList);
 		}
-
-		// List<LocalDate>で取得
-		List<LocalDate> currentDateRange = DateRange.getCurrentDateRange();
-		List<LocalDate> selectedDateList = DateRange.getSelectedDateList(selectedPeriod);
-
-		// List<LocalDate>をList<Date>に変換
-		List<Date> currentDateListAsDate = DateRange.convertToDateList(currentDateRange);
-		List<Date> selectedDateListAsDate = DateRange.convertToDateList(selectedDateList);
-
-		// 変換後のリストを変数に格納
-		List<Date> convertedSelectedDateList = DateRange.convertToDateList(selectedDateList);
-
-		//Mapを定義し、日付と対応するDutyエンティティを取得
-		Map<Date, Duty> dateDutyMap = new HashMap<>();
-		for (Duty duty : dutyList) {
-		    dateDutyMap.put(duty.getWorkDate(), duty);
-		}
-		
-		 // 選択された期間の日付に対応するDuty情報を取得してモデルに設定
-      
-		 List<DutyInfo> dutyInfoList = new ArrayList<>();
-	        for (LocalDate date : dateList) {
-	            Date convertedDate = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
-	            Duty duty = dateDutyMap.get(convertedDate);
-	            if (duty != null) {
-	            } else {
-	                dutyInfoList.add(new DutyInfo(convertedDate, null, null, null, null));
-	            }
-	        }
-	    
-	        model.addAttribute("dutyInfoList", dutyInfoList);
-			return "edit";
-		}
+		return "edit";
+	}
 
 	@RequestMapping(path = "/edit/update", method = RequestMethod.POST)
 	public String showupdatePage(Model model

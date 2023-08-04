@@ -17,7 +17,7 @@ public interface DutyRepository extends JpaRepository<Duty, Long> {
 
 	List<Duty> findByUserId(Integer userId);
 
-	Duty findByUserIdAndWorkDate(Integer userId, LocalDate now);	
+	List<Duty> findByUserIdAndWorkDate(Integer userId, LocalDate now);	
 	
 	List<Duty> getReferenceByUserId(Integer userId);
 	//Dutyオブジェクトを保存・更新
@@ -30,5 +30,5 @@ public interface DutyRepository extends JpaRepository<Duty, Long> {
 
 	List<Duty> findByUserIdAndWorkDateIn(Integer userId, List<LocalDate> dateList);
 
-	Duty findByWorkDate(Date workDate);
+	Duty findByWorkDate(LocalDate workDate);
 }

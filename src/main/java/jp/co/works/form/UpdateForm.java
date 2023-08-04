@@ -1,7 +1,7 @@
 package jp.co.works.form;
 
 import java.sql.Time;
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.validation.constraints.NotNull;
 
@@ -16,7 +16,7 @@ public class UpdateForm {
 	private Time breakTime;
 	@NotNull(message = "overTime is required")
 	private Time overTime;
-	private Date workDate;
+	private LocalDate workDate;
 
 	public Integer getDutyId() {
 		return dutyId;
@@ -66,11 +66,11 @@ public class UpdateForm {
 		this.overTime = overTime;
 	}
 
-	public Date getWorkDate() {
+	public LocalDate getWorkDate() {
 		return workDate;
 	}
 
-	public void setWorkDate(Date workDate) {
-		this.workDate = workDate;
+	public void setWorkDate(LocalDate localDate) {
+		this.workDate = localDate;
 	}
 }

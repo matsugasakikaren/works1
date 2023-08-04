@@ -1,13 +1,12 @@
 package jp.co.works.controller;
 
 import java.sql.Time;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,15 +47,9 @@ public class WorkController extends AccountController {
 		return Time.valueOf(localTime);
 	}
 
-	private Date convertToDate(String strDate) {
-		SimpleDateFormat simpledateFormat = new SimpleDateFormat("yyyy/MM/dd");
-		Date date = null;
-		try {
-			date = simpledateFormat.parse(strDate);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return date;
+	private LocalDate convertToDate(String strDate) {
+	    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+	    return LocalDate.parse(strDate, dateFormatter);
 	}
 
 	/*
@@ -71,7 +64,7 @@ public class WorkController extends AccountController {
 	@RequestMapping(path = "/employment")
 	public String showEmploymentPage(String workName, Model model) {
 		Integer userId = getLoginUser(); //ログインユーザーの情報を取得
-		Date today = convertToDate(getDate()); //現在日の取得
+		LocalDate today = convertToDate(getDate()); //現在日の取得
 		List<Duty> dutyList = dutyRepository.findByUserIdAndWorkDate(userId, today); //当日のレコードがあるか検索
 
 		if (!dutyList.isEmpty()) {
@@ -100,8 +93,7 @@ public class WorkController extends AccountController {
 		Integer startLogin = getLoginUser();
 		String starttime = abc();
 		Time startTime = convertToTime(starttime);
-		String newdate = getDate();
-		Date workDate = convertToDate(newdate);
+		LocalDate workDate = LocalDate.now();
 
 		// 現在日のレコードがあるか検索
 		List<Duty> dutyList1 = dutyRepository.findByUserIdAndWorkDate(startLogin, workDate);
@@ -139,7 +131,7 @@ public class WorkController extends AccountController {
 		String endTime = abc();
 		Time EndTime = convertToTime(endTime);
 		String newdate = getDate();
-		Date workDate = convertToDate(newdate);
+		LocalDate workDate = convertToDate(newdate);
 
 		List<Duty> dutyList = dutyRepository.findByUserIdAndWorkDate(startLogin, workDate);
 
