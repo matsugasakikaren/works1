@@ -1,11 +1,8 @@
 package jp.co.works.entity;
 
-import java.util.List;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -13,22 +10,17 @@ import jakarta.persistence.Table;
 public class Employee {
 
 	@Id
+	@Column(name = "user_id")
 	private Integer userId;
 
-	@Column
+	@Column(name = "user_name")
 	private String userName;
 
 	@Column
 	private String password;
 
-	@Column
+	@Column(name = "director_id")
 	private Integer directorId;
-
-	@Column(name = "holiday_id")
-	private Integer holidayId;
-
-	@OneToMany(mappedBy = "employee")
-	private List<Duty> duties;
 
 	public Integer getUserId() {
 		return userId;
@@ -60,21 +52,5 @@ public class Employee {
 
 	public void setDirectorId(Integer directorId) {
 		this.directorId = directorId;
-	}
-
-	public Integer getHolidayId() {
-		return holidayId;
-	}
-
-	public void setHolidayId(Integer holidayId) {
-		this.holidayId = holidayId;
-	}
-
-	public List<Duty> getDuties() {
-		return duties;
-	}
-
-	public void setDuties(List<Duty> duties) {
-		this.duties = duties;
 	}
 }

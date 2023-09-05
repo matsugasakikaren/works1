@@ -1,25 +1,42 @@
 package jp.co.works.entity;
 
-import java.sql.Date;
 
+import java.sql.Date;
+import java.time.LocalDate;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "holiday")
 public class Holiday {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int holidayId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "holiday_id")
+    private int holidayId;
 
+	@Column(name = "holiday_name")
 	private String holidayName;
-
+	
+	@Column(name = "holiday_start")
 	private Date holidayStart;
+	
+	@Column(name = "holiday_end")
 	private Date holidayEnd;
-	private Date requestDate;
-	private int decisionId;
-
+	
+	@Column(name = "request_date")
+	private LocalDate requestDate;
+	
+	@ManyToOne
+	@JoinColumn(name = "decision_id")
+	private Approval approval;
+	
 	public int getHolidayId() {
 		return holidayId;
 	}
@@ -52,20 +69,27 @@ public class Holiday {
 		this.holidayEnd = holidayEnd;
 	}
 
-	public Date getRequestDate() {
+	public LocalDate getRequestDate() {
 		return requestDate;
 	}
 
-	public void setRequestDate(Date requestDate) {
-		this.requestDate = requestDate;
+	public void setRequestDate(LocalDate today) {
+		this.requestDate = today;
 	}
 
-	public int getDecisionId() {
-		return decisionId;
+	public Approval getApproval() {
+		return approval;
+	}
+
+	public void setApproval(Approval approval) {
+		this.approval = approval;
 	}
 
 	public void setDecisionId(int decisionId) {
-		this.decisionId = decisionId;
+		if (approval == null) {
+			approval = new Approval();
+		}
+		approval.setDecisionId(decisionId);
+		
 	}
-
 }

@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ログイン画面</title>
 <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
@@ -14,11 +15,12 @@
 			<p class="error" th:text="${errMessage}"></p>
 			<form th:action="@{/login}" method="post" th:object="${loginForm}">
 				<div class="input-group">
-					<div><label>　社員ID　</label> <input type="text" class="set1"
-						th:field="*{userId}">
+					<div class="input-row">
+						<label>社員ID</label> <input type="text" class="userid"
+							th:field="*{userId}">
 					</div>
-					<div>
-						<label>パスワード</label> <input type="password" class="set1"
+					<div class="input-row">
+						<label>パスワード</label> <input type="password" class="pass"
 							th:field="*{password}">
 					</div>
 					<div>

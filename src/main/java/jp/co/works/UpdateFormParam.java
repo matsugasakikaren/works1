@@ -7,7 +7,6 @@ import javax.validation.Valid;
 
 import jp.co.works.form.UpdateForm;
 
-
 public class UpdateFormParam implements Serializable {
 	@Valid
     private List<UpdateForm> formList;

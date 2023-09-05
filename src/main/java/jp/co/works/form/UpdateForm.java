@@ -1,21 +1,23 @@
 package jp.co.works.form;
 
-import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 public class UpdateForm {
 	private Integer dutyId;
 	private Integer userId;
-	@NotNull(message = "startTime is required")
-	private Time startTime;
-	@NotNull(message = "endTime is required")
-	private Time endTime;
-	@NotNull(message = "breakTime is required")
-	private Time breakTime;
-	@NotNull(message = "overTime is required")
-	private Time overTime;
+	
+	@Pattern(regexp = "^(?:[01]\\d|2[0-3]):[0-5]\\d$", message = "hh:mmの形式で入力してください")
+	private LocalTime startTime;
+	@Pattern(regexp = "^(?:[01]\\d|2[0-3]):[0-5]\\d$", message = "hh:mmの形式で入力してください")
+	private LocalTime endTime;
+	@Pattern(regexp = "^(?:[01]\\d|2[0-3]):[0-5]\\d$", message = "hh:mmの形式で入力してください")
+	private LocalTime breakTime;
+	@Pattern(regexp = "^(?:[01]\\d|2[0-3]):[0-5]\\d$", message = "hh:mmの形式で入力してください")
+	private LocalTime overTime;
+	
 	private LocalDate workDate;
 
 	public Integer getDutyId() {
@@ -34,35 +36,35 @@ public class UpdateForm {
 		this.userId = userId;
 	}
 
-	public Time getStartTime() {
+	public LocalTime getStartTime() {
 		return startTime;
 	}
 
-	public void setStartTime(Time startTime) {
+	public void setStartTime(LocalTime startTime) {
 		this.startTime = startTime;
 	}
 
-	public Time getEndTime() {
+	public LocalTime getEndTime() {
 		return endTime;
 	}
 
-	public void setEndTime(Time endTime) {
+	public void setEndTime(LocalTime endTime) {
 		this.endTime = endTime;
 	}
 
-	public Time getBreakTime() {
+	public LocalTime getBreakTime() {
 		return breakTime;
 	}
 
-	public void setBreakTime(Time breakTime) {
+	public void setBreakTime(LocalTime breakTime) {
 		this.breakTime = breakTime;
 	}
 
-	public Time getOverTime() {
+	public LocalTime getOverTime() {
 		return overTime;
 	}
 
-	public void setOverTime(Time overTime) {
+	public void setOverTime(LocalTime overTime) {
 		this.overTime = overTime;
 	}
 

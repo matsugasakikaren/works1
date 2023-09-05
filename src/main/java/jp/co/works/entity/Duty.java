@@ -1,7 +1,7 @@
 package jp.co.works.entity;
 
-import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -28,13 +28,13 @@ public class Duty {
 	private LocalDate workDate;
 
 	@Column(name = "start_time")
-	private Time startTime;
+	private LocalTime startTime;
 
 	@Column(name = "end_time")
-	private Time endTime;
+	private LocalTime endTime;
 
 	@Column(name = "break_time")
-	private Time breakTime;
+	private LocalTime breakTime;
 
 	@ManyToOne
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,15 +46,7 @@ public class Duty {
 	private Employee employee;
 
 	@Column(name = "over_time")
-	private Time overTime;
-
-	public Work getWork() {
-		return work;
-	}
-
-	public void setWork(Work work) {
-		this.work = work;
-	}
+	private LocalTime overTime;
 
 	public Integer getDutyId() {
 		return dutyId;
@@ -62,22 +54,6 @@ public class Duty {
 
 	public void setDutyId(Integer dutyId) {
 		this.dutyId = dutyId;
-	}
-
-	public LocalDate getWorkDate() {
-		return workDate;
-	}
-
-	public void setWorkDate(LocalDate workDate) {
-		this.workDate = workDate;
-	}
-
-	public Time getStartTime() {
-		return startTime;
-	}
-
-	public void setStartTime(Time startTime) {
-		this.startTime = startTime;
 	}
 
 	public Integer getUserId() {
@@ -88,20 +64,44 @@ public class Duty {
 		this.userId = userId;
 	}
 
-	public Time getEndTime() {
+	public LocalDate getWorkDate() {
+		return workDate;
+	}
+
+	public void setWorkDate(LocalDate workDate) {
+		this.workDate = workDate;
+	}
+
+	public LocalTime getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(LocalTime startTime) {
+		this.startTime = startTime;
+	}
+
+	public LocalTime getEndTime() {
 		return endTime;
 	}
 
-	public void setEndTime(Time endTime) {
+	public void setEndTime(LocalTime endTime) {
 		this.endTime = endTime;
 	}
 
-	public Time getBreakTime() {
+	public LocalTime getBreakTime() {
 		return breakTime;
 	}
 
-	public void setBreakTime(Time breakTime) {
+	public void setBreakTime(LocalTime breakTime) {
 		this.breakTime = breakTime;
+	}
+
+	public Work getWork() {
+		return work;
+	}
+
+	public void setWork(Work work) {
+		this.work = work;
 	}
 
 	public Employee getEmployee() {
@@ -112,11 +112,11 @@ public class Duty {
 		this.employee = employee;
 	}
 
-	public Time getOverTime() {
+	public LocalTime getOverTime() {
 		return overTime;
 	}
 
-	public void setOverTime(Time overTime) {
+	public void setOverTime(LocalTime overTime) {
 		this.overTime = overTime;
 	}
 }

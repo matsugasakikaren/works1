@@ -1,6 +1,5 @@
 package jp.co.works.controller;
 
-import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -36,23 +35,6 @@ public class WorkController extends AccountController {
 	private HttpSession session;
 
 	/*
-	 * convertToTimeメソッド
-	 * String型からTime型に変換
-	 * 
-	 * @param timeString
-	 * @return Time.valueOf(localTime)
-	 */
-	private Time convertToTime(String timeString) {
-		LocalTime localTime = LocalTime.parse(timeString, DateTimeFormatter.ofPattern("HH:mm"));
-		return Time.valueOf(localTime);
-	}
-
-	private LocalDate convertToDate(String strDate) {
-	    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-	    return LocalDate.parse(strDate, dateFormatter);
-	}
-
-	/*
 	 * showEmploymentPageメソッド
 	 * 出退勤画面を表示
 	 * 
@@ -63,20 +45,22 @@ public class WorkController extends AccountController {
 	 */
 	@RequestMapping(path = "/employment")
 	public String showEmploymentPage(String workName, Model model) {
-		Integer userId = getLoginUser(); //ログインユーザーの情報を取得
-		LocalDate today = convertToDate(getDate()); //現在日の取得
-		List<Duty> dutyList = dutyRepository.findByUserIdAndWorkDate(userId, today); //当日のレコードがあるか検索
+		Integer userId = getLoginUser();
+		LocalDate today = LocalDate.now();
+		List<Duty> dutyList = dutyRepository.findByUserIdAndWorkDate(userId, today);
 
 		if (!dutyList.isEmpty()) {
 			Duty latestDuty = dutyList.get(0);
 			model.addAttribute("startTime", latestDuty.getStartTime());
 			model.addAttribute("endTime", latestDuty.getEndTime());
 		} else {
-			model.addAttribute("startTime", null); // 出勤時刻が未登録の場合はnullを設定
-			model.addAttribute("endTime", null); // 退勤時刻が未登録の場合はnullを設定
+			model.addAttribute("startTime", null);
+			model.addAttribute("endTime", null);
 		}
 		model.addAttribute("workList", workRepository.findAll());
-		model.addAttribute("selectedWorkId", 0); // デフォルトの選択値を設定
+		model.addAttribute("selectedWorkId", 0);
+		model.addAttribute("currentDate", getDate()); // 現在日
+		model.addAttribute("RealtimeClockArea", abc()); // 現在時刻
 
 		return "employment";
 	}
@@ -91,29 +75,25 @@ public class WorkController extends AccountController {
 	@RequestMapping(path = "/employment/startWork", method = RequestMethod.POST)
 	public String startWork(Model model) {
 		Integer startLogin = getLoginUser();
-		String starttime = abc();
-		Time startTime = convertToTime(starttime);
+		LocalTime startTime = LocalTime.now();
 		LocalDate workDate = LocalDate.now();
 
-		// 現在日のレコードがあるか検索
 		List<Duty> dutyList1 = dutyRepository.findByUserIdAndWorkDate(startLogin, workDate);
 
 		if (dutyList1.isEmpty()) {
-			//レコードがない場合 新しいレコード作成
 			Duty duty = new Duty();
 			duty.setStartTime(startTime);
 			duty.setUserId(startLogin);
 			duty.setWorkDate(workDate);
 			dutyRepository.save(duty);
+			model.addAttribute("startTimeFormatted", startTime.format(DateTimeFormatter.ofPattern("HH:mm")));
 		} else {
-			//既存のレコードを更新
-			Duty duty1 = dutyList1.get(0);
-			duty1.setStartTime(startTime);
-			dutyRepository.save(duty1);
-			model.addAttribute("startTime", startTime);
+			//model.addAttribute("errorMessage", "既に出勤済みです。");
+			LocalTime existingStartTime = dutyList1.get(0).getStartTime();
+			model.addAttribute("startTimeFormatted", existingStartTime.format(DateTimeFormatter.ofPattern("HH:mm")));
 		}
 
-		return "employment";
+		return "redirect:/employment";
 	}
 
 	/*
@@ -128,30 +108,37 @@ public class WorkController extends AccountController {
 	public String endWork(@RequestParam("workId") Integer workId, Model model) {
 		Integer startLogin = getLoginUser();
 
-		String endTime = abc();
-		Time EndTime = convertToTime(endTime);
-		String newdate = getDate();
-		LocalDate workDate = convertToDate(newdate);
+		LocalTime endTime = LocalTime.now();
+		LocalDate workDate = LocalDate.now();
 
 		List<Duty> dutyList = dutyRepository.findByUserIdAndWorkDate(startLogin, workDate);
 
-		if (!dutyList.isEmpty()) {
+		if (dutyList.isEmpty()) {
+			//model.addAttribute("errorMessage", "出勤していません。");
+		} else {
 			Duty duty = dutyList.get(0);
-			duty.setEndTime(EndTime);
 
-			Work work = workRepository.findById(workId).orElse(null);
-			duty.setWork(work);
+			if (duty.getEndTime() == null) {
+				LocalTime endTime1 = LocalTime.now();
+				duty.setEndTime(endTime1);
 
-			setBreakhours(duty, duty.getStartTime(), EndTime);
+				Work work = workRepository.findById(workId).orElse(null);
+				duty.setWork(work);
 
-			Time overTime = Overtimehours(duty.getStartTime(), EndTime, duty.getBreakTime());
-			duty.setOverTime(overTime);
+				setBreakhours(duty, duty.getStartTime(), endTime1);
 
-			dutyRepository.save(duty);
-			model.addAttribute("endTime", EndTime);
-			model.addAttribute("overTime", overTime);
+				LocalTime overTime = Overtimehours(duty.getStartTime(), endTime1, duty.getBreakTime());
+				duty.setOverTime(overTime);
+
+				dutyRepository.save(duty);
+				model.addAttribute("endTime", endTime1.format(DateTimeFormatter.ofPattern("HH:mm")));
+				model.addAttribute("overTime", overTime);
+			} else {
+				//model.addAttribute("errorMessage", "既に退勤済みです。");
+			}
 		}
-		return "employment";
+
+		return "redirect:/employment";
 	}
 
 	/*
@@ -184,27 +171,28 @@ public class WorkController extends AccountController {
 	 * 休憩時間の設定
 	 * 
 	 */
-	private void setBreakhours(Duty duty, Time DecidedstartTime, Time DecidedendTime) {
-		long actualworkinghours = (DecidedendTime.getTime() - DecidedstartTime.getTime()) / (60 * 1000);
+	private void setBreakhours(Duty duty, LocalTime localTime, LocalTime endTime) {
+		long actualworkingminutes = ChronoUnit.MINUTES.between(localTime, endTime);
 
-		int hours = (int) actualworkinghours / 60;
-		int minutes = (int) actualworkinghours % 60;
+		int hours = (int) actualworkingminutes / 60;
+		int minutes = (int) actualworkingminutes % 60;
 
-		if (hours >= 8 * 60) { //8h以上の場合
-			duty.setBreakTime(Time.valueOf("01:00:00")); //1hと設定
-		} else if (hours >= 6 * 60 && actualworkinghours < 8 * 60) { //6h以上8h未満
-			duty.setBreakTime(Time.valueOf("00:" + String.format("%02d", minutes) + ":00"));
-		} else { //それ以外
-			duty.setBreakTime(Time.valueOf("00:00:00"));
+		if (hours >= 8) {
+			duty.setBreakTime(LocalTime.of(1, 0)); // 1hと設定
+		} else if (hours >= 6 && actualworkingminutes < 8 * 60) {
+			int breakHours = hours >= 1 ? 1 : 0;
+			duty.setBreakTime(LocalTime.of(breakHours, minutes));
+		} else {
+			duty.setBreakTime(LocalTime.of(0, 0));
 		}
 	}
 
 	// 残業時間を計算するメソッド
-	private Time Overtimehours(Time startTime, Time endTime, Time breakTime) {
-		if (startTime != null && endTime != null && breakTime != null) {
-			LocalTime startTimeLocal = startTime.toLocalTime();
-			LocalTime endTimeLocal = endTime.toLocalTime();
-			LocalTime breakTimeLocal = breakTime.toLocalTime();
+	private LocalTime Overtimehours(LocalTime localTime, LocalTime endTime, LocalTime localTime2) {
+		if (localTime != null && endTime != null && localTime2 != null) {
+			LocalTime startTimeLocal = localTime;
+			LocalTime endTimeLocal = endTime;
+			LocalTime breakTimeLocal = localTime2;
 
 			long workingMinutes = startTimeLocal.until(endTimeLocal, ChronoUnit.MINUTES);
 			long breakMinutes = breakTimeLocal.getHour() * 60 + breakTimeLocal.getMinute();
@@ -217,13 +205,12 @@ public class WorkController extends AccountController {
 				int hours = (int) (overtimeMinutes / 60);
 				int minutes = (int) (overtimeMinutes % 60);
 
-				return Time.valueOf(String.format("%02d:%02d:00", hours, minutes));
+				return LocalTime.of(hours, minutes);
 			} else {
-				return Time.valueOf("00:00:00"); // 残業時間がない場合は00:00:00を設定
+				return LocalTime.of(0, 0);
 			}
 		}
 
-		// 残業時間がない場合や異常な場合はnullを返す
 		return null;
 	}
 }

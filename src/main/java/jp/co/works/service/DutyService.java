@@ -1,7 +1,7 @@
 package jp.co.works.service;
 
-import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,17 +69,16 @@ public class DutyService {
 		}
 
 		dutyRepository.saveAll(dutyList);
-
 	}
 
 	public void updateAll(List<UpdateForm> formList) {
 		for (UpdateForm updateForm : formList) {
 			// UpdateFormから必要なデータを取得
 			LocalDate workDate = updateForm.getWorkDate();
-			Time startTime = updateForm.getStartTime();
-			Time endTime = updateForm.getEndTime();
-			Time breakTime = updateForm.getBreakTime();
-			Time overTime = updateForm.getOverTime();
+			LocalTime startTime = updateForm.getStartTime();
+			LocalTime endTime = updateForm.getEndTime();
+			LocalTime breakTime = updateForm.getBreakTime();
+			LocalTime overTime = updateForm.getOverTime();
 
 			// データベースから対応するDutyを取得
 			Duty duty = dutyRepository.findByWorkDate(workDate);

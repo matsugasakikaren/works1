@@ -3,26 +3,88 @@ body {
 	padding: 0;
 }
 
-p.main {
-	border-bottom: solid 3px;
-	width: 100%;
-	background-color: #90ee90;
-	height: 50px;
-	margin: 0;
+.main {
+	background-color: #AEFFBD;
+	margin-bottom: 30px;
+	border-bottom: 2px solid #000;
+	margin-top: 0%;
+	display: flex;
+}
+.main a {
+	margin-left: auto;
 }
 
-label.test1 {
+.container {
+	flex-direction: column;
+	align-items: center;
+	min-height: 100vh;
+}
+
+label.screenname {
 	display: flex;
 	align-items: center;
 	height: 100%;
-	font-size: 30px;
-}
-/* 土曜日のスタイル */
-.saturday {
-    color: blue;
 }
 
-/* 日曜日と祝日のスタイル */
-.sunday-holiday {
-    color: red;
+.information {
+	display: flex;
+	flex-direction: row; /* 要素を横並びに配置 */
+	align-items: center; /* 要素を縦方向に中央配置 */
+}
+
+.days {
+	margin-left: 10px;
+}
+
+.time-container {
+	display: inline-block;
+	margin-right: 20px;
+	vertical-align: top;
+}
+
+.time-label {
+	display: inline;
+	margin-right: 5px;
+}
+
+.time-value {
+	display: inline;
+}
+
+table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+th, td {
+	padding: 8px;
+	text-align: center;
+}
+
+th.blue-bg, td.blue-bg {
+	background-color: #87CEFA;
+}
+
+th.red-bg, td.red-bg {
+	background-color: #FFB6C1;
+}
+
+th.green-bg, td.green-bg {
+	background-color: #90EE90;
+}
+
+.form-container {
+	text-align: right;
+}
+
+.button {
+	background-color: #BAD3FF;
+	width: auto; /* または必要な幅の値を指定 */
+	padding: 8px 20px; /* 余白を追加してボタンのサイズを調整 */
+	border: none; /* ボーダーを削除 */
+	cursor: pointer;
+	border-radius: 5px;
+	margin-right: 30px;
+	font-size: 20px;
+	margin-bottom: 10px;
 }

@@ -3,17 +3,85 @@ body {
 	padding: 0;
 }
 
-p.main {
-	border-bottom: solid 3px;
-	width: 100%;
-	background-color: #90ee90;
-	height: 50px;
-	margin: 0;
+.main {
+	background-color: #AEFFBD;
+	margin-bottom: 30px;
+	border-bottom: 2px solid #000;
+	margin-top: 0%;
+	display: flex;
 }
 
-label.test1 {
+.main a {
+	margin-left: auto;
+}
+
+.container {
+	flex-direction: column;
+	align-items: center;
+	min-height: 100vh;
+}
+
+label.screenname {
 	display: flex;
 	align-items: center;
 	height: 100%;
-	font-size: 30px;
+}
+
+table {
+	border-collapse: collapse;
+	width: 70%;
+	border: none;
+	margin: 0 auto; /* テーブルを中央寄せにする */
+	text-align: center;
+}
+
+th, td {
+	padding: 8px;
+	text-align: center;
+}
+
+th.green-bg, td.green-bg {
+	background-color: #90EE90;
+}
+
+.button {
+	background-color: white;
+	border: 2px solid #3CB371;
+	border-radius: 5px;
+}
+
+.decision-申請済み {
+	background-color: #6495ED;
+}
+
+.decision-却下 {
+	background-color: #FF69A3;
+}
+
+.decision-承認 {
+	background-color: #AEFFBD;
+}
+
+h2 {
+	margin-top: 40px; /* 上下の余白を調整 */
+	margin-left: 70px; /* 左の余白を調整 */
+}
+
+button {
+	border: 2px solid #90ee90; /* 枠線の色*/
+	background-color: transparent; /* 背景色を透明 */
+	border-radius: 7px; /* 角を丸くする */
+	margin-left: 20px; /* 左の間隔*/
+	font-size: 16px;
+}
+
+.form-container {
+	justify-content: space-between; /* フォーム要素間間隔 */
+	align-items: center; /* フォーム要素を垂直方向に中央揃え */
+}
+
+/* 各フォーム要素 */
+.form-container select, .form-container button {
+	flex: 1; /* 各要素を均等に広げる */
+	margin-right: 20px; /* フォーム要素間の横方向の間隔*/
 }

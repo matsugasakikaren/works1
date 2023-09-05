@@ -8,45 +8,54 @@
 <body>
 	<div class="container">
 		<p class="main">
-			<label>打刻</label>
+			<label class="left">打刻</label> <a class="right" th:href="@{/login}">ログアウト</a>
 		</p>
-		<div class="form1">
-			<form th:action="@{/employment/endWork}" method="post">
-				<!-- 業務内容とドロップダウンリスト -->
-				<label id="workSelectLabel">業務内容:</label> <select name="workId"
-					id="workSelect">
-					<option th:each="work : ${workList}" th:value="${work.workId}"
-						th:text="${work.workName}"></option>
-				</select>
-				<!-- 退勤ボタン -->
-				<button class="but2" type="submit" name="endTime" value="endtime">退勤</button>
-			</form>
-		</div>
-		<div class="current-date-time">
-			<!-- currentDate -->
-			<p id="currentDate" th:text="${currentDate}"></p>
-			<div class="button-list">
-				<!-- 出勤ボタン -->
-				<form th:action="@{/employment/startWork}" method="post">
-					<button class="but1" type="submit" name="startTime"
-						value="starttime">出勤</button>
-				</form>
+		<div class="upper-elements">
+			<div class="button-list1">
+				<div class="current-date-time">
+					<!-- 現在日 -->
+					<p id="currentDate" th:text="${currentDate}"></p>
+					<!-- 現在時刻 -->
+					<p id="RealtimeClockArea" th:text="${RealtimeClockArea}"></p>
+				</div>
+				<div class="form1">
+					<!-- 出勤ボタン -->
+					<form th:action="@{/employment/startWork}" method="post">
+						<button class="attendbutton" type="submit" name="startTime"
+							value="starttime">出勤</button>
+					</form>
+					<p th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></p>
+					<p id="RealtimeclockArea2" th:text="${startTime != null ? startTime.toString().substring(0, 5) : ''}"></p>
+					<!-- 編集ボタン -->
+					<form th:action="@{/edit}" method="get">
+						<button class="editbutton" type="submit" name="edit" value="edit">編集</button>
+					</form>
+				</div>
+				<div class="form2">
+					<form th:action="@{/employment/endWork}" method="post">
+						<!-- 業務内容とドロップダウンリスト -->
+						<label id="workSelectLabel">業務内容:</label> <select name="workId"
+							id="workSelect">
+							<option th:each="work : ${workList}" th:value="${work.workId}"
+								th:text="${work.workName}"></option>
+						</select>
+						<!-- 退勤ボタン -->
+						<div>
+							<button class="leavingbutton" type="submit" name="endTime"
+								value="endtime">退勤</button>
+							<p th:if="${errorMessage}" class="error-message"
+								th:text="${errorMessage}"></p>
+						</div>
+					</form>
+					<div>
+						<p id="RealtimeclockArea3" th:text="${endTime != null ? endTime.toString().substring(0, 5) : ''}"></p>
+					</div>
+					<!-- 申請ボタン -->
+					<form th:action="@{/application}" method="get">
+						<button class="appbutton" type="submit" name="edit" value="app">申請</button>
+					</form>
+				</div>
 			</div>
-		</div>
-		<!-- startTimeとendTime -->
-		<div class="time1">
-			<p id="RealtimeclockArea2" th:text="${startTime}"></p>
-			<p id="RealtimeclockArea3" th:text="${endTime}"></p>
-		</div>
-		<div class="btn2">
-			<!-- 編集ボタン -->
-			<form th:action="@{/edit}" method="get">
-				<button class="but3" type="submit" name="edit" value="edit">編集</button>
-			</form>
-			<!-- 申請ボタン -->
-			<form th:action="@{/application}" method="get">
-				<button class="but4" type="submit" name="edit" value="app">申請</button>
-			</form>
 		</div>
 	</div>
 	<script src="time.js"></script>

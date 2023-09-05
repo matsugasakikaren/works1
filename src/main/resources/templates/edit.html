@@ -6,51 +6,121 @@
 <title>就業状況確認画面</title>
 </head>
 <body>
-	<p class="main">
-		<label class="test1">就業状況</label>
-	</p>
-	<div th:each="date : ${currentDateRange}">
-		<p th:text="${#dates.format(date, 'yyyy/MM/dd(E)')}"></p>
+	<div class="container">
+		<p class="main">
+			<label class="screenname">就業状況</label> <a  th:href="@{/login}">ログアウト</a>
+		</p>
+		<div th:each="date : ${currentDateRange}">
+			<p th:text="${#temporals.format(date, 'yyyy/MM/dd(E)')}"></p>
+		</div>
+		<form th:action="@{/edit/list}" method="post">
+			<label for="selectedPeriod">期間選択:</label> <select
+				name="selectedPeriod" id="selectedPeriod"
+				th:onchange="'this.form.submit()'">
+				<option value="">期間を選択してください</option>
+				<option th:each="option : ${periodOptions}" th:value="${option}"
+					th:text="${option}" th:selected="${option == selectedPeriod}"></option>
+			</select>
+		</form>
+		<div class="information">
+			<p>
+				社員名:<span th:if="${not #lists.isEmpty(dutyList)}"
+					th:text="${dutyList[0].employee.userName}"></span>
+			</p>
+			<p class="days">
+				総労働日数:<span th:text="${totalWorkingDays}"></span>日
+			</p>
+		</div>
+		<div class="time-container">
+			<p class="time-label">労働時間:</p>
+			<span th:text="${totalWorkingHours}" class="time-value"></span>時間 <span
+				th:if="${totalWorkingMinutes == '00'}">0</span><span
+				th:unless="${totalWorkingMinutes == '00'}"
+				th:text="${totalWorkingMinutes}" class="time-value"></span>
+		</div>
+		<div class="time-container">
+			<p class="time-label">総休憩時間:</p>
+			<span th:text="${totalBreakTime}" class="time-value"></span>時間
+		</div>
+		<div class="time-container">
+			<p class="time-label">総残業時間:</p>
+			<span th:text="${totalOvertime}" class="time-value"></span>時間
+		</div>
+		<form class="form-container" th:action="@{/edit/update}" method="post"
+			onsubmit="return submitForm()">
+			<input class="button" type="submit" value="編集" />
+		</form>
+		<table>
+			<thead>
+				<tr>
+					<th class="green-bg">日付</th>
+					<th class="green-bg">勤務状況</th>
+					<th class="green-bg">出勤時刻</th>
+					<th class="green-bg">退勤時刻</th>
+					<th class="green-bg">休憩時間</th>
+					<th class="green-bg">残業時間</th>
+				</tr>
+			</thead>
+			<tbody th:if="${mode == 'show'}">
+				<tr th:each="entry : ${workStatusMapSorted}">
+					<td th:text="${#temporals.format(entry.key, 'yyyy/MM/dd (EEE)')}"
+						th:class="${entry.key.dayOfWeek.name() == 'SATURDAY' ? 'blue-bg' : (entry.key.dayOfWeek.name() == 'SUNDAY' ? 'red-bg' : '')}"></td>
+					<th:block th:with="duty=${entry.value}">
+						<td th:class="${entry.key.dayOfWeek.name() == 'SATURDAY' ? 'blue-bg' : (entry.key.dayOfWeek.name() == 'SUNDAY' ? 'red-bg' : '')}" class="attendance-status">
+				            <span th:if="${entry.value.startTime != null}">出勤</span>
+				            <span th:if="${duty.startTime == null and entry.key.dayOfWeek.getValue() >= 1 and entry.key.dayOfWeek.getValue() <= 5}">欠勤</span>
+				            <span th:unless="${entry.value.startTime != null or (entry.key.dayOfWeek.getValue() >= 1 and entry.key.dayOfWeek.getValue() <= 5)}">休日</span>
+				        </td>
+						<!-- 開始時刻の表示 -->
+						<td
+							th:text="${duty.startTime != null ? #temporals.format(duty.startTime, 'H:mm') : ''}"
+							th:class="${entry.key.dayOfWeek.name() == 'SATURDAY' ? 'blue-bg' : (entry.key.dayOfWeek.name() == 'SUNDAY' ? 'red-bg' : '')}"></td>
+						<!-- 終了時刻の表示 -->
+						<td
+							th:text="${duty.endTime != null ? #temporals.format(duty.endTime, 'H:mm') : ''}"
+							th:class="${entry.key.dayOfWeek.name() == 'SATURDAY' ? 'blue-bg' : (entry.key.dayOfWeek.name() == 'SUNDAY' ? 'red-bg' : '')}"></td>
+						<!-- 休憩時間の表示 -->
+						<td
+							th:text="${duty.breakTime != null ? #temporals.format(duty.breakTime, 'H:mm') : ''}"
+							th:class="${entry.key.dayOfWeek.name() == 'SATURDAY' ? 'blue-bg' : (entry.key.dayOfWeek.name() == 'SUNDAY' ? 'red-bg' : '')}"></td>
+						<!-- 残業時間の表示 -->
+						<td
+							th:text="${duty.overTime != null ? #temporals.format(duty.overTime, 'H:mm') : ''}"
+							th:class="${entry.key.dayOfWeek.name() == 'SATURDAY' ? 'blue-bg' : (entry.key.dayOfWeek.name() == 'SUNDAY' ? 'red-bg' : '')}"></td>
+					</th:block>
+				</tr>
+			</tbody>
+			<tbody th:if="${mode == 'edit'}">
+				<tr th:each="entry : ${workStatusMapSorted}">
+					<!-- 日付のフォーマットと曜日の表示 -->
+					<td th:text="${#temporals.format(entry.key, 'yyyy/MM/dd (EEE)')}"
+						th:class="${entry.key.dayOfWeek.name() == 'SATURDAY' ? 'blue-bg' : (entry.key.dayOfWeek.name() == 'SUNDAY' ? 'red-bg' : '')}"></td>
+					<th:block th:with="duty=${entry.value}">
+						<td th:class="${entry.key.dayOfWeek.name() == 'SATURDAY' ? 'blue-bg' : (entry.key.dayOfWeek.name() == 'SUNDAY' ? 'red-bg' : '')}" class="attendance-status">
+				            <span th:if="${entry.value.startTime != null}">出勤</span>
+				            <span th:if="${duty.startTime == null and entry.key.dayOfWeek.getValue() >= 1 and entry.key.dayOfWeek.getValue() <= 5}">欠勤</span>
+				            <span th:unless="${entry.value.startTime != null or (entry.key.dayOfWeek.getValue() >= 1 and entry.key.dayOfWeek.getValue() <= 5)}">休日</span>
+				        </td>
+						<!-- 開始時刻の表示 -->
+						<td
+							th:text="${duty.startTime != null ? #temporals.format(duty.startTime, 'H:mm') : ''}"
+							th:class="${entry.key.dayOfWeek.name() == 'SATURDAY' ? 'blue-bg' : (entry.key.dayOfWeek.name() == 'SUNDAY' ? 'red-bg' : '')}"></td>
+						<!-- 終了時刻の表示 -->
+						<td
+							th:text="${duty.endTime != null ? #temporals.format(duty.endTime, 'H:mm') : ''}"
+							th:class="${entry.key.dayOfWeek.name() == 'SATURDAY' ? 'blue-bg' : (entry.key.dayOfWeek.name() == 'SUNDAY' ? 'red-bg' : '')}"></td>
+						<!-- 休憩時間の表示 -->
+						<td
+							th:text="${duty.breakTime != null ? #temporals.format(duty.breakTime, 'H:mm') : ''}"
+							th:class="${entry.key.dayOfWeek.name() == 'SATURDAY' ? 'blue-bg' : (entry.key.dayOfWeek.name() == 'SUNDAY' ? 'red-bg' : '')}"></td>
+						<!-- 残業時間の表示 -->
+						<td
+							th:text="${duty.overTime != null ? #temporals.format(duty.overTime, 'H:mm') : ''}"
+							th:class="${entry.key.dayOfWeek.name() == 'SATURDAY' ? 'blue-bg' : (entry.key.dayOfWeek.name() == 'SUNDAY' ? 'red-bg' : '')}"></td>
+					</th:block>
+				</tr>
+			</tbody>
+		</table>
 	</div>
-	<form action="/edit" method="get">
-		<label for="selectedPeriod">期間選択:</label> <select
-			name="selectedPeriod" id="selectedPeriod"
-			th:onchange="'this.form.submit()'">
-			<option value="">期間を選択してください</option>
-			<option th:each="option : ${periodOptions}" th:value="${option}"
-				th:text="${option}" th:selected="${option == selectedPeriod}"></option>
-		</select> <input type="submit" value="表示">
-	</form>
-	<p th:text="${dutyList[0].employee.userName}"></p>
-	<p>
-		総労働日数:<span th:text="${totalWorkingDays}"></span>
-	</p>
-	<p>
-		総休憩時間:<span th:text="${totalBreakTime}"></span>
-	</p>
-	<form th:action="@{/edit/update}" method="post"
-		onsubmit="return submitForm()">
-		<input type="submit" value="編集" />
-	</form>
-	<table>
-		<thead>
-			<tr>
-				<th>日付</th>
-				<th>出勤時刻</th>
-				<th>退勤時刻</th>
-				<th>休憩時間</th>
-				<th>残業時間</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:each="entry : ${dutyMap}">
-				<td th:text="${#dates.format(entry.key, 'yyyy/M/d')}"></td>
-				<td th:text="${entry.value != null ? entry.value.startTime : ''}"></td>
-				<td th:text="${entry.value != null ? entry.value.endTime : ''}"></td>
-				<td th:text="${entry.value != null ? entry.value.breakTime : ''}"></td>
-				<td th:text="${entry.value != null ? entry.value.overTime : ''}"></td>
-			</tr>
-		</tbody>
-	</table>
 </body>
 </html>

@@ -1,57 +1,110 @@
+body {
+	margin: 0;
+	padding: 0;
+}
+
 .main {
 	background-color: #AEFFBD;
 	margin-bottom: 30px;
-	border-bottom: 1px solid #000;
+	border-bottom: 2px solid #000;
+	margin-top: 0%;
+	display: flex;
 }
-/* 全体のコンテナ */
+
+.main a {
+	margin-left: auto;
+}
+
 .container {
-  border: 1px solid #ccc;
-  padding: 20px;
+	lex-direction: column;
+	align-items: center;
+	min-height: 100vh;
 }
 
 /* 打刻部分と業務内容部分のレイアウト */
-.form1 {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin-bottom: 20px;
+.form1, .form2 {
+	margin-right: 10px; /* 右側のマージン */
+}
+/* currentDateと出勤のレイアウト */
+.current-date-time {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 20px;
 }
 
-/* currentDateと出勤・退勤ボタンのレイアウト */
-.current-date-time {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
+.attendbutton {
+	justify-content: flex-end;
+	margin-bottom: 10px; /* ボタンの下マージン*/
+	padding: 20px 30px; /* パディング調整 */
 }
 
 /* 出勤・退勤ボタンのスタイル */
-.button-list {
-  display: flex;
-  align-items: center;
+.button-list1 {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 }
 
+/* ボタンの共通スタイル */
+button {
+	font-size: 24px; /* ボタンのフォントサイズを大きく */
+	padding: 20px 30px; /* ボタンのパディングを調整 */
+	color: white;
+	background: #90ee90;
+	border: none;
+	border-radius: 10px;
+	width: 80px;
+}
+
+.current-date-time, .form1, .form2 {
+	text-align: center; /* 要素のテキストを中央に配置 */
+}
 /* startTimeとendTimeのレイアウト */
 .time1 {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
 }
 
-/* 編集・申請ボタンのスタイル */
-.btn2 {
-  display: flex;
-  align-items: center;
+.appbutton {
+	margin: 10px;
 }
 
+.leavingbutton {
+	padding-bottom: 20px;
+	justify-content: center; /* ボタンを縦方向に中央配置*/
+	margin-top: 10px; /* ボタンの上マージン*/
+	padding: 20px 30px; /* パディング調整 */
+}
 /* currentTimeのスタイル */
 #RealtimeClockArea {
-  font-size: 18px;
-  font-weight: bold;
+	font-size: 18px;
 }
 
-/* 出勤・退勤時刻のスタイル */
-#RealtimeclockArea2,
-#RealtimeclockArea3 {
-  font-size: 16px;
+.leavingbutton, .attendbutton, .editbutton, .appbutton {
+	padding: 15px;
+}
+
+.upper-elements {
+	padding: 20px; /* 上下左右の余白*/
+}
+
+.form1 {
+	position: relative;
+	top: 5px;
+}
+
+.editbutton {
+	position: relative;
+	top: 6px;
+}
+/* 出勤時刻の表示スタイル */
+#RealtimeclockArea2, #RealtimeclockArea3 {
+	font-size: 16px;
+	margin: 10px 0; /* 上下マージン*/
+	height: 20px; /* 高さを固定 */
+	line-height: 20px; /* 行の高さを合わせる */
 }
